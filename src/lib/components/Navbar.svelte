@@ -15,6 +15,10 @@
 		width: ${scrollProgress > 0.1 ? '85%' : '100%'};
 		max-width: ${scrollProgress > 0.1 ? '56rem' : '100%'};
 		transform: ${scrollProgress > 0.1 ? 'translateY(10px)' : 'none'};
+		background: ${scrollProgress > 0.1 ? 'var(--nav-bg-scrolled)' : 'transparent'};
+		backdrop-filter: ${scrollProgress > 0.1 ? 'blur(12px) saturate(1.8)' : 'none'};
+		-webkit-backdrop-filter: ${scrollProgress > 0.1 ? 'blur(12px) saturate(1.8)' : 'none'};
+		border: ${scrollProgress > 0.1 ? '1px solid var(--nav-border)' : '1px solid transparent'};
 	`);
 
 	let shimmerOpacity = $state(0);
@@ -123,7 +127,7 @@
 </div>
 
 <!-- Mobile Navbar -->
-<nav class="mobile-navbar">
+<nav class="mobile-navbar" class:scrolled={isScrolled}>
 	<div class="mobile-navbar-inner">
 		<a href="/" class="menu-logo">
 			<div class="menu-avatar">
@@ -197,15 +201,15 @@
 		gap: 2px;
 		padding: 0.5rem 1.5rem;
 		margin: 0 auto;
-		background: var(--glass-bg);
-		backdrop-filter: blur(12px) saturate(1.8);
-		-webkit-backdrop-filter: blur(12px) saturate(1.8);
 		transition:
 			box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1),
 			border-radius 0.6s cubic-bezier(0.22, 1, 0.36, 1),
 			width 0.6s cubic-bezier(0.22, 1, 0.36, 1),
 			max-width 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-			transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+			transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+			background-color 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+			backdrop-filter 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+			border-color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
 	/* Mobile navbar: simple solid */
@@ -215,14 +219,26 @@
 		left: 0;
 		z-index: 50;
 		width: 100%;
-		background: var(--glass-bg);
-		backdrop-filter: blur(12px) saturate(1.8);
-		border-bottom: 1px solid var(--border);
+		background: transparent;
+		backdrop-filter: none;
+		-webkit-backdrop-filter: none;
+		border-bottom: 1px solid transparent;
+		transition:
+			background-color 0.4s ease,
+			backdrop-filter 0.4s ease,
+			border-color 0.4s ease;
 	}
 	@media (min-width: 768px) {
 		.mobile-navbar {
 			display: none;
 		}
+	}
+
+	.mobile-navbar.scrolled {
+		background: var(--glass-bg);
+		backdrop-filter: blur(12px) saturate(1.8);
+		-webkit-backdrop-filter: blur(12px) saturate(1.8);
+		border-bottom: 1px solid var(--border);
 	}
 	.mobile-navbar-inner {
 		display: flex;
