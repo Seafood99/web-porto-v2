@@ -6,21 +6,56 @@
 	let name = $state('');
 	let email = $state('');
 	let message = $state('');
+	let emailError = $state('');
 	let isSubmitting = $state(false);
 	let isSuccess = $state(false);
 
+	// Enforce alphabetical character and space entry only in real-time
+	function handleNameInput(e: Event) {
+		const target = e.target as HTMLInputElement;
+		name = target.value.replace(/[^a-zA-Z\s]/g, '');
+	}
+
+	function handleEmailInput(e: Event) {
+		const target = e.target as HTMLInputElement;
+		email = target.value;
+		if (email && !email.toLowerCase().endsWith('@gmail.com')) {
+			emailError = 'Only @gmail.com addresses are allowed.';
+		} else {
+			emailError = '';
+		}
+	}
+
+	// Helper to sanitize input strings
+	function sanitizeInput(str: string): string {
+		// Strip HTML tags to prevent XSS
+		const noHtml = str.replace(/<[^>]*>/g, '');
+		// Strip newlines/carriage returns from single-line fields to prevent header injection
+		return noHtml.replace(/[\r\n]/g, '').trim();
+	}
+
 	function handleSubmit(e: SubmitEvent) {
 		e.preventDefault();
+
+		if (!email.toLowerCase().endsWith('@gmail.com')) {
+			emailError = 'Only @gmail.com addresses are allowed.';
+			return;
+		}
+
 		isSubmitting = true;
 
-		// Create mailto link and redirect
-		const subject = encodeURIComponent(`Inquiry from ${name}`);
-		const body = encodeURIComponent(`Hi Dawam,\n\n${message}\n\nBest regards,\n${name}\nEmail: ${email}`);
-		
+		// Security: sanitize name, email, and strip HTML from message
+		const cleanName = sanitizeInput(name);
+		const cleanEmail = sanitizeInput(email);
+		const cleanMessage = message.replace(/<[^>]*>/g, '').trim(); // Preserve linebreaks in message but strip HTML
+
+		const mailtoSubject = encodeURIComponent(`Inquiry from ${cleanName}`);
+		const mailtoBody = encodeURIComponent(`Hi Dawam,\n\n${cleanMessage}\n\nBest regards,\n${cleanName}\nEmail: ${cleanEmail}`);
+
 		setTimeout(() => {
 			isSubmitting = false;
 			isSuccess = true;
-			window.location.href = `mailto:muhammadawamali@gmail.com?subject=${subject}&body=${body}`;
+			window.location.href = `mailto:muhammadawamali@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
 		}, 600);
 	}
 </script>
@@ -56,7 +91,8 @@
 						type="text"
 						id="name"
 						bind:value={name}
-						placeholder="Your name"
+						oninput={handleNameInput}
+						placeholder="Your name (letters only)"
 						required
 						class="form-input"
 					/>
@@ -68,10 +104,15 @@
 						type="email"
 						id="email"
 						bind:value={email}
-						placeholder="your.email@example.com"
+						oninput={handleEmailInput}
+						placeholder="your.email@gmail.com"
 						required
 						class="form-input"
+						class:error={emailError}
 					/>
+					{#if emailError}
+						<span class="error-msg">{emailError}</span>
+					{/if}
 				</div>
 
 				<div class="form-group">
@@ -86,7 +127,7 @@
 					></textarea>
 				</div>
 
-				<button type="submit" class="btn-primary" disabled={isSubmitting}>
+				<button type="submit" class="btn-primary" disabled={isSubmitting || !!emailError}>
 					{#if isSubmitting}
 						Redirecting to mail client...
 					{:else if isSuccess}
@@ -272,6 +313,20 @@
 	}
 	:global(html.dark) .form-input:focus {
 		box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+	}
+
+	.form-input.error {
+		border-color: #ef4444;
+	}
+	.form-input.error:focus {
+		border-color: #ef4444;
+		box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15);
+	}
+	.error-msg {
+		font-size: 0.75rem;
+		color: #ef4444;
+		margin-top: 0.25rem;
+		font-weight: 500;
 	}
 
 	.textarea {
