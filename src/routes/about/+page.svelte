@@ -1,8 +1,20 @@
 <script lang="ts">
 	import { journey } from '$lib/data';
-	import JourneyTimeline from '$lib/components/JourneyTimeline.svelte';
+	import HorizontalTimeline from '$lib/components/HorizontalTimeline.svelte';
 	import ScrollIndicator from '$lib/components/ScrollIndicator.svelte';
+	import ScrollBack from '$lib/components/ScrollBack.svelte';
+
+	let progress = $state(0);
+	let hasUnlocked = $state(false);
+
+	$effect(() => {
+		if (progress >= 0.95) {
+			hasUnlocked = true;
+		}
+	});
 </script>
+
+<ScrollBack prevRoute="/" prevLabel="Home" />
 
 <div class="page">
 	<a href="/" class="back">&larr; Back to home</a>
@@ -15,11 +27,11 @@
 			hall to the systems I'm shipping right now.
 		</p>
 	</header>
-
-	<JourneyTimeline items={journey} />
 </div>
 
-<ScrollIndicator nextRoute="/projects" nextLabel="Projects" kicker="Next" />
+<HorizontalTimeline items={journey} bind:progress />
+
+<ScrollIndicator nextRoute="/projects" nextLabel="Projects" kicker="Next" unlocked={hasUnlocked} />
 
 <style>
 	.page {

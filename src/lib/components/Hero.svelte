@@ -45,7 +45,7 @@
 
 	.hero-title {
 		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-		font-size: clamp(2.2rem, 6vw, 4.3rem);
+		font-size: clamp(2.5rem, 6vw, 4.3rem);
 		font-weight: 800;
 		letter-spacing: -1.5px;
 		line-height: 1;

@@ -6,7 +6,8 @@
 		nextRoute,
 		nextLabel,
 		kicker = 'Next',
-		threshold = 420
+		threshold = 420,
+		unlocked = true
 	}: {
 		nextRoute: string;
 		nextLabel: string;
@@ -14,6 +15,7 @@
 		kicker?: string;
 		/** Total delta scroll (px) yang harus diakumulasi di dasar halaman sebelum auto-navigate */
 		threshold?: number;
+		unlocked?: boolean;
 	} = $props();
 
 	let rootEl: HTMLElement | undefined = $state();
@@ -42,7 +44,7 @@
 	}
 
 	function bump(delta: number) {
-		if (locked || !armed) return;
+		if (locked || !armed || !unlocked) return;
 		lastInputAt = performance.now();
 		overscroll = Math.min(Math.max(overscroll + delta, 0), threshold);
 		if (overscroll >= threshold) navigate();
@@ -119,7 +121,12 @@
 	});
 </script>
 
-<section class="scroll-next" class:in-view={inView} bind:this={rootEl}>
+<section
+	class="scroll-next"
+	class:in-view={inView}
+	class:locked-state={!unlocked}
+	bind:this={rootEl}
+>
 	<a
 		class="next-panel"
 		class:armed
@@ -159,7 +166,19 @@
 		transform: translateY(12px);
 		transition:
 			opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-			transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+			transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+			height 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+			min-height 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+			padding 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.scroll-next.locked-state {
+		height: 0 !important;
+		min-height: 0 !important;
+		padding: 0 !important;
+		opacity: 0 !important;
+		pointer-events: none !important;
+		overflow: hidden !important;
 	}
 	.scroll-next.in-view {
 		opacity: 1;

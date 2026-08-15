@@ -1,11 +1,19 @@
 <script lang="ts">
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 	import { projects, type Project } from '$lib/data';
 	import WorkCard from '$lib/components/WorkCard.svelte';
 	import ProjectModal from '$lib/components/ProjectModal.svelte';
+	import ScrollIndicator from '$lib/components/ScrollIndicator.svelte';
+	import ScrollBack from '$lib/components/ScrollBack.svelte';
 
 	let selectedProject: Project | null = $state(null);
+	let containerEl: HTMLElement | undefined = $state(undefined);
 	let trackEl: HTMLElement | undefined = $state(undefined);
+
+	let progress = $state(0);
+	let hasUnlocked = $state(false);
+	let isPinned = $state(false);
+	let translateX = $state(0);
 
 	function openModal(project: Project) {
 		selectedProject = project;
@@ -15,75 +23,89 @@
 		selectedProject = null;
 	}
 
-	// Track drag-to-scroll state
-	let isDragging = $state(false);
-	let dragStartX = $state(0);
-	let dragScrollStart = $state(0);
-
-	function handleWheel(e: WheelEvent) {
-		if (!trackEl) return;
-
-		// If it's a pure vertical scroll, pass it to the page
-		if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && e.deltaX !== 0 === false) {
-			e.preventDefault();
-			e.stopPropagation();
-			// Scroll the page by the same amount the user was trying to scroll
-			window.scrollBy({
-				top: e.deltaY,
-				behavior: 'auto'
-			});
+	$effect(() => {
+		if (progress >= 0.95) {
+			hasUnlocked = true;
 		}
-	}
+	});
 
-	function handlePointerDown(e: PointerEvent) {
-		if (!trackEl) return;
-		// Only handle primary button (left click) or touch
-		if (e.pointerType === 'mouse' && e.button !== 0) return;
+	function setup() {
+		if (!containerEl || !trackEl) return;
 
-		// Don't drag if user clicked on interactive elements (buttons, links)
-		const target = e.target as HTMLElement;
-		if (target.closest('a, button, input, textarea, select')) return;
+		const vw = window.innerWidth;
+		const vh = window.innerHeight;
+		const trackWidth = trackEl.scrollWidth;
 
-		isDragging = true;
-		dragStartX = e.clientX;
-		dragScrollStart = trackEl.scrollLeft;
-
-		trackEl.style.cursor = 'grabbing';
-		trackEl.setPointerCapture(e.pointerId);
-		e.preventDefault();
-	}
-
-	function handlePointerMove(e: PointerEvent) {
-		if (!isDragging || !trackEl) return;
-		const dx = e.clientX - dragStartX;
-		trackEl.scrollLeft = dragScrollStart - dx;
-	}
-
-	function handlePointerUp(e: PointerEvent) {
-		if (!trackEl) return;
-		isDragging = false;
-		trackEl.style.cursor = 'grab';
-		try {
-			trackEl.releasePointerCapture(e.pointerId);
-		} catch {
-			// Ignore if not captured
+		if (trackWidth > vw) {
+			isPinned = true;
+			const scrollDist = trackWidth - vw;
+			containerEl.style.height = `${vh + scrollDist}px`;
+		} else {
+			isPinned = false;
+			containerEl.style.height = '';
 		}
+		update();
+	}
+
+	function update() {
+		if (!containerEl || !trackEl) return;
+
+		if (!isPinned) {
+			translateX = 0;
+			return;
+		}
+
+		const rect = containerEl.getBoundingClientRect();
+		const scrollable = containerEl.offsetHeight - window.innerHeight;
+		if (scrollable <= 0) return;
+
+		const scrolled = Math.max(0, -rect.top);
+		progress = Math.min(1, Math.max(0, scrolled / scrollable));
+
+		const maxTranslate = trackEl.scrollWidth - window.innerWidth;
+		translateX = progress * maxTranslate;
 	}
 
 	onMount(() => {
-		if (trackEl) {
-			trackEl.style.cursor = 'grab';
-			// Non-passive wheel listener so we can preventDefault
-			trackEl.addEventListener('wheel', handleWheel, { passive: false });
-		}
-	});
+		let ticking = false;
 
-	onDestroy(() => {
-		if (trackEl) {
-			trackEl.removeEventListener('wheel', handleWheel);
+		function onScroll() {
+			if (ticking) return;
+			ticking = true;
+			requestAnimationFrame(() => {
+				update();
+				ticking = false;
+			});
 		}
+
+		function onResize() {
+			requestAnimationFrame(setup);
+		}
+
+		window.addEventListener('scroll', onScroll, { passive: true });
+		window.addEventListener('resize', onResize, { passive: true });
+
+		let resizeObserver: ResizeObserver | undefined;
+		if (typeof ResizeObserver !== 'undefined' && trackEl) {
+			resizeObserver = new ResizeObserver(() => {
+				requestAnimationFrame(setup);
+			});
+			resizeObserver.observe(trackEl);
+		}
+
+		requestAnimationFrame(setup);
+
+		return () => {
+			window.removeEventListener('scroll', onScroll);
+			window.removeEventListener('resize', onResize);
+			if (resizeObserver) {
+				resizeObserver.disconnect();
+			}
+		};
 	});
 </script>
+
+<ScrollBack prevRoute="/about" prevLabel="About" />
 
 <div class="page">
 	<a href="/about" class="back">&larr; Back to about</a>
@@ -94,27 +116,21 @@
 		<p class="sub">Selected work &mdash; client projects, production systems, and a Bangkit capstone. Hover any card to focus.</p>
 	</header>
 
-	<section class="work-track-wrap">
-		<!-- svelte-ignore a11y_no_static_element_interactions -->
-		<div
-			class="work-track"
-			class:dragging={isDragging}
-			bind:this={trackEl}
-			onpointerdown={handlePointerDown}
-			onpointermove={handlePointerMove}
-			onpointerup={handlePointerUp}
-			onpointercancel={handlePointerUp}
-		>
-			{#each projects as project}
-				<WorkCard {project} onOpen={() => openModal(project)} />
-			{/each}
+	<section class="work-track-wrap" bind:this={containerEl} class:pinned={isPinned}>
+		<div class="sticky-viewport">
+			<div
+				class="work-track"
+				bind:this={trackEl}
+				style={`transform: translate3d(${-translateX}px, 0, 0)`}
+			>
+				{#each projects as project}
+					<WorkCard {project} onOpen={() => openModal(project)} />
+				{/each}
+			</div>
 		</div>
 	</section>
 
-	<footer class="page-footer">
-		<h3 class="footer-heading">Seen enough?</h3>
-		<a href="/contact" class="footer-link">Let's work together <span class="arrow">&rarr;</span></a>
-	</footer>
+	<ScrollIndicator nextRoute="/contact" nextLabel="Contact" kicker="Next" unlocked={hasUnlocked} />
 </div>
 
 {#if selectedProject}
@@ -125,7 +141,7 @@
 	.page {
 		position: relative;
 		z-index: 1;
-		padding: 7rem 0 5rem;
+		padding: 7rem 0 0;
 		min-height: 100vh;
 	}
 
@@ -137,6 +153,7 @@
 		transition: color 0.2s;
 		margin-left: 2rem;
 		margin-bottom: 2.5rem;
+		display: block;
 	}
 	.back:hover {
 		color: var(--blue-700);
@@ -181,7 +198,7 @@
 		max-width: 560px;
 	}
 
-	/* Horizontal track */
+	/* Horizontal track wrapper */
 	.work-track-wrap {
 		position: relative;
 		width: 100vw;
@@ -189,30 +206,32 @@
 		margin-right: calc(50% - 50vw);
 	}
 
+	.work-track-wrap.pinned .sticky-viewport {
+		position: sticky;
+		top: 0;
+		height: 100vh;
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		touch-action: pan-y;
+	}
+
 	.work-track {
 		display: flex;
 		gap: 1.5rem;
 		padding: 0 2rem 1rem;
+		will-change: transform;
+		touch-action: pan-y;
+	}
+
+	.work-track-wrap:not(.pinned) .work-track {
 		overflow-x: auto;
 		overflow-y: hidden;
 		scroll-snap-type: x mandatory;
 		scrollbar-width: none;
 		-ms-overflow-style: none;
-		touch-action: pan-y;
 		user-select: none;
 		-webkit-user-select: none;
-	}
-
-	.work-track.dragging {
-		scroll-snap-type: none;
-	}
-
-	.work-track.dragging :global(.work-card) {
-		pointer-events: none;
-	}
-
-	.work-track::-webkit-scrollbar {
-		display: none;
 	}
 
 	/* The NESH collective hover pattern */
@@ -221,6 +240,7 @@
 		transition:
 			opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
 			transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+		touch-action: pan-y;
 	}
 
 	/* When ANY card is hovered = dim all cards */
@@ -239,7 +259,7 @@
 
 	@media (max-width: 768px) {
 		.page {
-			padding: 5rem 0 3rem;
+			padding: 5rem 0 0;
 		}
 
 		.back {
@@ -254,56 +274,6 @@
 		.work-track {
 			gap: 1rem;
 			padding: 0 1.25rem;
-		}
-	}
-
-	/* Page footer */
-	.page-footer {
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: 4rem 2rem 6rem;
-		border-top: 1px solid var(--border-light);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 2rem;
-		text-align: center;
-	}
-
-	.footer-heading {
-		font-size: 0.875rem;
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.15em;
-		color: var(--text-muted);
-		margin: 0;
-	}
-
-	.footer-link {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		font-family: 'Instrument Serif', Georgia, serif;
-		font-size: clamp(1.5rem, 3vw, 2rem);
-		color: var(--blue-700);
-		text-decoration: none;
-		transition: color 0.3s ease;
-	}
-	.footer-link:hover {
-		color: var(--blue-500);
-	}
-
-	.arrow {
-		display: inline-block;
-		transition: transform 0.3s ease;
-	}
-	.footer-link:hover .arrow {
-		transform: translateX(4px);
-	}
-
-	@media (max-width: 600px) {
-		.page-footer {
-			padding: 3rem 1.25rem 4rem;
 		}
 	}
 </style>
