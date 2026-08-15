@@ -5,7 +5,7 @@ export interface Project {
 	caseStudy: string;
 	tags: string[];
 	link: string;
-	linkLabel: 'Inquire' | 'Live Demo' | 'Private';
+	linkLabel: 'Inquire' | 'Visit Site' | 'Private';
 	images: string[];
 	featured?: boolean;
 }
@@ -42,8 +42,8 @@ export const projects: Project[] = [
 		caseStudy:
 			'Built a complete company profile from scratch with dynamic content management. The CMS admin panel runs on Next.js server actions with Better Auth for secure admin login. PostgreSQL + Drizzle ORM for type-safe queries. SvelteKit frontend is fully bilingual (ID/EN) with GSAP scroll animations and Tailwind v4 for styling. Deployed to a client-managed VPS with Nginx reverse proxy.',
 		tags: ['SvelteKit', 'PostgreSQL', 'Drizzle ORM', 'Tailwind v4', 'GSAP'],
-		link: '/contact',
-		linkLabel: 'Inquire',
+		link: 'https://taktikgroup.co.id/',
+		linkLabel: 'Visit Site',
 		images: ['/assets/projects/tsa/tsa-1.webp', '/assets/projects/tsa/tsa-2.webp'],
 		featured: true
 	},
@@ -54,8 +54,8 @@ export const projects: Project[] = [
 		caseStudy:
 			'Architected a production-ready fan engagement platform handling match schedules, merchandise orders, and news content. Strapi v5 headless CMS on VPS for content management, Next.js 14 with TypeScript for the storefront. Full DevOps setup: Docker multi-stage builds, GitHub Actions CI/CD, automated deployment via SSH. Payment gateway integration for merchandise checkout.',
 		tags: ['Next.js', 'Strapi v5', 'TypeScript', 'Docker', 'CI/CD'],
-		link: 'https://admin.bcsxpss.com',
-		linkLabel: 'Live Demo',
+		link: 'https://bcsxpss.com/',
+		linkLabel: 'Visit Site',
 		images: [
 			'/assets/projects/bcs/bcs-1.webp',
 			'/assets/projects/bcs/bcs-2.webp',
@@ -69,8 +69,8 @@ export const projects: Project[] = [
 		caseStudy:
 			'Designed a tailored information system for a dormitory community handling daily attendance, leave permits, academic schedules, and cleaning rosters. FastAPI backend with SQLite for lightweight data storage. Three.js interactive 3D background on the landing page. Auto-generated WhatsApp message templates for reporting. Deployed on Ubuntu VPS with systemd service and Nginx as reverse proxy, SSL via Let\'s Encrypt.',
 		tags: ['FastAPI', 'SQLite', 'Three.js', 'Nginx', 'VPS'],
-		link: 'https://komplekm.my.id',
-		linkLabel: 'Live Demo',
+		link: 'https://www.komplekm.my.id/',
+		linkLabel: 'Visit Site',
 		images: [
 			'/assets/projects/sia-asrama/sia-asrama-1.webp',
 			'/assets/projects/sia-asrama/sia-asrama-2.webp'
@@ -83,8 +83,8 @@ export const projects: Project[] = [
 		caseStudy:
 			'Contributed full-stack to a private e-commerce platform with modern payment flow. Laravel 13 backend with Xendit payment gateway integration, role-based admin dashboard with activity logging. Next.js 14 frontend with app router, cart state, checkout flow, and coupon validation. Admin panel has detailed sales analytics and order management with strict role checks.',
 		tags: ['Laravel 13', 'Next.js 14', 'Xendit', 'REST API'],
-		link: '/contact',
-		linkLabel: 'Private',
+		link: 'https://curvasudshop.com/',
+		linkLabel: 'Visit Site',
 		images: [
 			'/assets/projects/css/css-1.webp',
 			'/assets/projects/css/css-2.webp',
@@ -112,8 +112,8 @@ export const projects: Project[] = [
 		caseStudy:
 			'Engineered a high-performance landing page optimized for Core Web Vitals. Svelte single-file app with zero client-side JS overhead. Perfect Lighthouse scores: performance 100, accessibility 100, best practices 100, SEO 100. Tailwind CSS with minimal bundle size. Critical CSS inlined, lazy-loaded images, preloaded web fonts. Built for a business innovation competition.',
 		tags: ['Svelte', 'Tailwind CSS', 'Lighthouse 100'],
-		link: '/contact',
-		linkLabel: 'Private',
+		link: 'https://nutrifyy.vercel.app/',
+		linkLabel: 'Visit Site',
 		images: [
 			'/assets/projects/nutrify/nutrify-1.webp',
 			'/assets/projects/nutrify/nutrify-2.webp',
