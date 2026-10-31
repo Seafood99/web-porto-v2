@@ -4,6 +4,10 @@
 
 - Communicates in Indonesian (Bahasa Indonesia), casual/informal register (e.g., "chat, bisa bantu aku...", "ini lhoo", "masa gabisa liat?"). Respond in kind. Confidence: 0.9
 
+## Workflow
+
+- Feature plans and project documentation live in the repo's `knowledge/` folder (e.g. `knowledge/features/`), not in a separate `docs/` directory — corrected the assistant when it wrote plans to `docs/`. Confidence: 0.85
+
 ## Tooling
 
 - Uses the PecutOpus gateway (api.pecutopus.web.id) with opencode; keeps the provider's models registered in the opencode config (opencode.jsonc) so they can be selected. When given a list of models, wants ALL of them added to the config, not just a subset — everything should be selectable via the model switcher. Confidence: 0.9

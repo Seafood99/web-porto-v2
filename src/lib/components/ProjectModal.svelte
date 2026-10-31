@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Project } from '$lib/data';
+	import TechStack from '$lib/components/TechStack.svelte';
 	import { onMount, onDestroy } from 'svelte';
 
 	let {
@@ -85,10 +86,6 @@
 	let linkRel = $derived(isExternal(project.link) ? 'noopener noreferrer' : undefined);
 </script>
 
-<svelte:head>
-	<title>{project.title} — Dawam Amali</title>
-</svelte:head>
-
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
@@ -153,11 +150,7 @@
 				<h2 id="modal-title" class="modal-title">{project.title}</h2>
 			</div>
 
-			<div class="modal-tags">
-				{#each project.tags as tag}
-					<span class="tag">{tag}</span>
-				{/each}
-			</div>
+			<TechStack tags={project.tags} />
 
 			<p class="modal-case">{project.caseStudy}</p>
 
@@ -172,6 +165,9 @@
 					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 						<path d="M7 17l9.2-9.2M17 17V7H7" />
 					</svg>
+				</a>
+				<a href="/projects/{project.slug}" class="modal-cta secondary">
+					Read full case study
 				</a>
 				<button class="modal-cta secondary" onclick={handleClose}>
 					Close
@@ -428,24 +424,7 @@
 		margin: 0;
 	}
 
-	.modal-tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.4rem;
-	}
 
-	.tag {
-		font-size: 0.75rem;
-		font-weight: 500;
-		padding: 0.3rem 0.75rem;
-		border-radius: 999px;
-		background: var(--tag-bg);
-		color: var(--blue-700);
-		border: 1px solid var(--border-light);
-	}
-	:global(html.dark) .tag {
-		color: var(--blue-400);
-	}
 
 	.modal-case {
 		font-size: 0.95rem;

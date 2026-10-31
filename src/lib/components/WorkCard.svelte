@@ -98,15 +98,9 @@
 
 	<div class="work-info">
 		<div class="work-text">
-			<h3 class="work-name">{projectName}</h3>
+			<a class="work-name" href="/projects/{project.slug}">{projectName}</a>
 			{#if projectSubtitle}
 				<p class="work-subtitle">{projectSubtitle}</p>
-			{:else}
-				<div class="work-tags">
-					{#each project.tags.slice(0, 3) as tag}
-						<span class="work-tag">{tag}</span>
-					{/each}
-				</div>
 			{/if}
 		</div>
 
@@ -231,6 +225,12 @@
 		color: #fff;
 		margin: 0;
 		text-wrap: balance;
+		text-decoration: none;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
+	}
+	.work-name:hover {
+		text-decoration: underline;
 	}
 
 	.work-subtitle {
@@ -238,25 +238,6 @@
 		color: rgba(255, 255, 255, 0.75);
 		margin: 0;
 		line-height: 1.4;
-	}
-
-	.work-tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.35rem;
-		margin-top: 0.15rem;
-	}
-
-	.work-tag {
-		font-size: 0.68rem;
-		font-weight: 500;
-		letter-spacing: 0.02em;
-		padding: 0.2rem 0.55rem;
-		background: rgba(255, 255, 255, 0.12);
-		color: rgba(255, 255, 255, 0.9);
-		border-radius: 999px;
-		border: 1px solid rgba(255, 255, 255, 0.15);
-		backdrop-filter: blur(6px);
 	}
 
 	/* Arrow button */

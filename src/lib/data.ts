@@ -1,9 +1,11 @@
+import type { TechKey } from './tech';
+
 export interface Project {
 	slug: string;
 	title: string;
 	desc: string;
 	caseStudy: string;
-	tags: string[];
+	tags: TechKey[];
 	link: string;
 	linkLabel: 'Inquire' | 'Visit Site' | 'Private';
 	images: string[];
@@ -41,7 +43,7 @@ export const projects: Project[] = [
 		desc: 'Full-stack company profile for a construction & property company with an integrated CMS admin panel.',
 		caseStudy:
 			'Built a complete company profile from scratch with dynamic content management. The CMS admin panel runs on Next.js server actions with Better Auth for secure admin login. PostgreSQL + Drizzle ORM for type-safe queries. SvelteKit frontend is fully bilingual (ID/EN) with GSAP scroll animations and Tailwind v4 for styling. Deployed to a client-managed VPS with Nginx reverse proxy.',
-		tags: ['SvelteKit', 'PostgreSQL', 'Drizzle ORM', 'Tailwind v4', 'GSAP'],
+		tags: ['sveltekit', 'postgresql', 'drizzle', 'tailwindcss', 'gsap'],
 		link: 'https://taktikgroup.co.id/',
 		linkLabel: 'Visit Site',
 		images: ['/assets/projects/tsa/tsa-1.webp', '/assets/projects/tsa/tsa-2.webp'],
@@ -53,7 +55,7 @@ export const projects: Project[] = [
 		desc: 'Production fan engagement platform (live at admin.bcsxpss.com) with matches, news, and merchandise.',
 		caseStudy:
 			'Architected a production-ready fan engagement platform handling match schedules, merchandise orders, and news content. Strapi v5 headless CMS on VPS for content management, Next.js 14 with TypeScript for the storefront. Full DevOps setup: Docker multi-stage builds, GitHub Actions CI/CD, automated deployment via SSH. Payment gateway integration for merchandise checkout.',
-		tags: ['Next.js', 'Strapi v5', 'TypeScript', 'Docker', 'CI/CD'],
+		tags: ['nextjs', 'strapi', 'typescript', 'docker', 'cicd'],
 		link: 'https://bcsxpss.com/',
 		linkLabel: 'Visit Site',
 		images: [
@@ -68,7 +70,7 @@ export const projects: Project[] = [
 		desc: 'Information system for Pondok Pesantren — attendance, permits, schedules, with WhatsApp reports.',
 		caseStudy:
 			'Designed a tailored information system for a dormitory community handling daily attendance, leave permits, academic schedules, and cleaning rosters. FastAPI backend with SQLite for lightweight data storage. Three.js interactive 3D background on the landing page. Auto-generated WhatsApp message templates for reporting. Deployed on Ubuntu VPS with systemd service and Nginx as reverse proxy, SSL via Let\'s Encrypt.',
-		tags: ['FastAPI', 'SQLite', 'Three.js', 'Nginx', 'VPS'],
+		tags: ['fastapi', 'sqlite', 'threejs', 'nginx', 'vps'],
 		link: 'https://www.komplekm.my.id/',
 		linkLabel: 'Visit Site',
 		images: [
@@ -82,7 +84,7 @@ export const projects: Project[] = [
 		desc: 'Private Laravel 13 + Next.js 14 platform with Xendit payment integration.',
 		caseStudy:
 			'Contributed full-stack to a private e-commerce platform with modern payment flow. Laravel 13 backend with Xendit payment gateway integration, role-based admin dashboard with activity logging. Next.js 14 frontend with app router, cart state, checkout flow, and coupon validation. Admin panel has detailed sales analytics and order management with strict role checks.',
-		tags: ['Laravel 13', 'Next.js 14', 'Xendit', 'REST API'],
+		tags: ['laravel', 'nextjs', 'xendit', 'restapi'],
 		link: 'https://curvasudshop.com/',
 		linkLabel: 'Visit Site',
 		images: [
@@ -97,7 +99,7 @@ export const projects: Project[] = [
 		desc: 'Full-stack event management with event CRUD, guest stars, and media uploads.',
 		caseStudy:
 			'Built a full-stack event management platform with comprehensive admin capabilities. Laravel 12 backend provides RESTful APIs for event CRUD, guest star management, media library with image optimization, contact inbox with ticketing, and dashboard statistics. Next.js frontend with Tailwind CSS for responsive event listings and detail pages.',
-		tags: ['Laravel 12', 'Next.js', 'React', 'Tailwind CSS'],
+		tags: ['laravel', 'nextjs', 'react', 'tailwindcss'],
 		link: '/contact',
 		linkLabel: 'Private',
 		images: [
@@ -111,7 +113,7 @@ export const projects: Project[] = [
 		desc: 'High-performance landing page with perfect Lighthouse score for a competition.',
 		caseStudy:
 			'Engineered a high-performance landing page optimized for Core Web Vitals. Svelte single-file app with zero client-side JS overhead. Perfect Lighthouse scores: performance 100, accessibility 100, best practices 100, SEO 100. Tailwind CSS with minimal bundle size. Critical CSS inlined, lazy-loaded images, preloaded web fonts. Built for a business innovation competition.',
-		tags: ['Svelte', 'Tailwind CSS', 'Lighthouse 100'],
+		tags: ['svelte', 'tailwindcss', 'lighthouse'],
 		link: 'https://nutrifyy.vercel.app/',
 		linkLabel: 'Visit Site',
 		images: [
@@ -126,7 +128,7 @@ export const projects: Project[] = [
 		desc: 'Cloud-native backend serving ML predictions, deployed on Google Cloud Run.',
 		caseStudy:
 			'Bangkit Academy capstone selected for distinction. Architected the cloud-native backend handling image upload, preprocessing, and ML prediction serving. Flask app containerized with Docker (multi-stage build for small image size), deployed on Google Cloud Run with auto-scaling. REST API with input validation, CORS, and rate limiting. Achieved 99.9% uptime during the demo period. The ML model uses a CNN to classify wound images into categories.',
-		tags: ['GCP', 'Flask', 'Docker', 'Cloud Run'],
+		tags: ['gcp', 'flask', 'docker', 'cloudrun'],
 		link: '/contact',
 		linkLabel: 'Private',
 		images: [
@@ -145,7 +147,7 @@ export const projects: Project[] = [
 		desc: 'Predictive ML model ranking K-pop songs by audio features using scikit-learn.',
 		caseStudy:
 			'Built a predictive ML model that ranks K-pop songs by predicted popularity from audio feature data. Cleaned the Spotify-dataset-like data with pandas (dedup, normalize, handle missing). Engineered features from raw audio data. Compared multiple scikit-learn models — tuned Random Forest and Gradient Boosting. Evaluated with Spearman rank correlation against actual chart positions.',
-		tags: ['Python', 'Scikit-learn', 'Pandas'],
+		tags: ['python', 'scikitlearn', 'pandas'],
 		link: '/contact',
 		linkLabel: 'Private',
 		images: []

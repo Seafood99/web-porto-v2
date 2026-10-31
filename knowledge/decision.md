@@ -4,6 +4,58 @@
 
 ---
 
+## 15. Halaman Detail Project per Slug + Registry Tech Stack Berlogo
+
+**Tanggal**: 2026-10-31
+
+**Keputusan**: Field `slug` yang selama ini menganggur dipakai untuk rute `/projects/[slug]` yang
+di-prerender. `ProjectModal` TETAP ada sebagai quick peek, tapi `<svelte:head><title>` dipindah dari
+modal ke rute. Tech stack dipindah dari string bebas (`Project.tags: string[]`) ke registry
+`src/lib/tech.ts` dengan tipe `TechKey`, dirender komponen baru `TechStack.svelte` sebagai chip
+logo + label monokrom. Ikon di-vendor ke `static/assets/tech/` (22 file dari simple-icons).
+`ProjectCard.svelte` dihapus.
+
+**Alasan**: `caseStudy` adalah konten terkuat portfolio tapi tidak punya URL — hanya hidup di balik
+klik modal, jadi tidak bisa dishare ke recruiter dan tidak pernah ter-prerender (blok
+`{#if selectedProject}` tidak masuk HTML statis). Sementara `tags` berisi campuran nama teknologi,
+nomor versi, dan konsep non-logo (`CI/CD`, `REST API`, `VPS`, `Lighthouse 100`) dengan penulisan
+tidak konsisten antar project (`Tailwind v4` vs `Tailwind CSS`, `Next.js` vs `Next.js 14`).
+
+**Konsekuensi**:
+- `entries()` di `+page.ts` **wajib**, karena `svelte.config.js` memakai `adapter-static` dengan
+  `strict: true` dan `fallback: undefined`. Tanpa itu `bun run build` gagal.
+- Output build berupa `public/projects/<slug>.html` (file, bukan folder), mengikuti `trailingSlash`
+  default `never`.
+- `load()` mengembalikan `{ project, previous, next }` — objek tetangga, bukan indeks.
+- **Ikon tidak boleh lewat `<img>`.** SVG-as-image adalah dokumen terpisah yang tidak mewarisi CSS
+  halaman, jadi `fill="currentColor"` di dalamnya jatuh ke hitam dan dark mode tidak ikut. Dipakai
+  `mask-image: var(--icon)` + `background-color: currentColor` sehingga warna ikon = warna teks chip.
+- **`onDestroy` tetap dijalankan saat SSR** (di `#close_render`). Menaruh `window.removeEventListener`
+  di sana membuat prerender gagal 500 dengan `ReferenceError: window is not defined`. Cleanup listener
+  harus lewat *return value* `onMount`, mengikuti pola `ScrollIndicator`/`ScrollBack`.
+- Nomor versi hilang dari chip (`Laravel 13` → `Laravel`); informasinya tetap ada di prosa `caseStudy`.
+- `vps`, `xendit`, `restapi` tidak punya logo → `icon: null` → chip teks dengan bentuk identik.
+- Logo hanya muncul di halaman detail. Modal tetap text pill, tapi labelnya kini diambil dari
+  `techRegistry[tag].label` karena `tags` berisi key, bukan string tampil.
+- `.work-name` di `WorkCard` jadi anchor nyata ke `/projects/{slug}` (crawlable + ctrl/cmd-click);
+  klik badan card tetap membuka modal, klik panah tetap ke link eksternal. Blok `.work-tags` yang
+  mati dihapus — semua judul mengandung em-dash sehingga cabang itu tidak pernah dirender.
+- CTA halaman detail: `linkLabel === 'Private'` → teks "Inquire about this project" ke `/contact`.
+
+**Trade-offs**:
+- Halaman detail menambah `<meta name="description">` sendiri, sehingga ada dua tag description
+  (default dari `app.html` + per-page). Belum dirapikan — itu wilayah fitur SEO per-halaman, bukan
+  fitur ini.
+- Chip logo dipakai konsisten di halaman detail dan modal quick peek (`ProjectModal`).
+  Styling chip ditingkatkan: background frosted glass semi-opaque (`rgba(255,255,255,0.85)` /
+  `rgba(30,41,59,0.85)` + backdrop-filter blur), teks kontras tinggi `var(--text)`, border solid,
+  dan aksen warna ikon `var(--blue-700)` / `var(--blue-400)` agar selalu terbaca jelas di atas
+  background dinamis canvas WebGL.
+- 22 file SVG menambah bobot repo (~35 KB total), ditukar dengan nol dependency runtime ke CDN dan
+  nol request pihak ketiga.
+
+---
+
 ## 13. Urutan Flow: Home → About → Projects → Contact
 
 **Tanggal**: 2026-08-15
