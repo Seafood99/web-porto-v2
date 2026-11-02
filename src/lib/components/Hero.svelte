@@ -55,6 +55,10 @@
 		white-space: nowrap;
 	}
 
+	:global(html.dark) .hero-title {
+		text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+	}
+
 	.identity-pill {
 		display: inline-block;
 		padding: 0.35rem 0.85rem;

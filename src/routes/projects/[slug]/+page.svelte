@@ -7,8 +7,13 @@
 	let { data }: { data: PageData } = $props();
 
 	let project = $derived(data.project);
-	let projectName = $derived(project.title.split('—')[0].trim());
-	let projectRole = $derived(project.title.includes('—') ? project.title.split('—')[1].trim() : '');
+
+	function getShortTitle(title: string): string {
+		return title.split('—')[0].trim();
+	}
+
+	let projectName = $derived(getShortTitle(project.title));
+	let projectRole = $derived(project.title.split('—')[1]?.trim() ?? '');
 
 	let images = $derived(
 		project.images.length > 0
@@ -53,7 +58,7 @@
 		};
 	});
 
-	let isExternal = $derived(project.link.startsWith('http://') || project.link.startsWith('https://'));
+	let isExternal = $derived(project.link.startsWith('http'));
 	let ctaLabel = $derived(
 		project.linkLabel === 'Private' ? 'Inquire about this project' : project.linkLabel
 	);
@@ -139,7 +144,7 @@
 		{#if data.previous}
 			<a href="/projects/{data.previous.slug}" class="pager-link">
 				<span class="pager-kicker">&larr; Previous</span>
-				<span class="pager-name">{data.previous.title.split('—')[0].trim()}</span>
+				<span class="pager-name">{getShortTitle(data.previous.title)}</span>
 			</a>
 		{:else}
 			<span></span>
@@ -148,7 +153,7 @@
 		{#if data.next}
 			<a href="/projects/{data.next.slug}" class="pager-link align-right">
 				<span class="pager-kicker">Next &rarr;</span>
-				<span class="pager-name">{data.next.title.split('—')[0].trim()}</span>
+				<span class="pager-name">{getShortTitle(data.next.title)}</span>
 			</a>
 		{/if}
 	</nav>
@@ -190,13 +195,17 @@
 		text-transform: uppercase;
 		letter-spacing: 0.15em;
 		color: var(--blue-700);
-		padding: 0.3rem 0.8rem;
-		border: 1px solid var(--border-light);
+		padding: 0.35rem 0.85rem;
+		border: 1px solid var(--border);
 		border-radius: 999px;
 		background: var(--tag-bg);
+		box-shadow: 0 1px 3px rgba(44, 94, 173, 0.06);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
 	}
 	:global(html.dark) .kicker {
 		color: var(--blue-400);
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 	}
 
 	.heading {
@@ -406,13 +415,27 @@
 	.pager-link {
 		display: flex;
 		flex-direction: column;
-		gap: 0.3rem;
+		gap: 0.35rem;
 		max-width: 45%;
+		padding: 0.9rem 1.4rem;
+		border-radius: 14px;
+		background: var(--tag-bg);
+		border: 1px solid var(--border);
+		box-shadow: 0 2px 8px var(--shadow);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
 		text-decoration: none;
-		transition: opacity 0.2s ease;
+		transition:
+			transform 0.2s ease,
+			background 0.2s ease,
+			border-color 0.2s ease,
+			box-shadow 0.2s ease;
 	}
 	.pager-link:hover {
-		opacity: 0.65;
+		transform: translateY(-2px);
+		background: var(--bg-card);
+		border-color: var(--blue-500);
+		box-shadow: 0 6px 16px -2px var(--shadow-hover);
 	}
 	.pager-link.align-right {
 		text-align: right;
@@ -420,11 +443,14 @@
 	}
 
 	.pager-kicker {
-		font-size: 0.7rem;
+		font-size: 0.72rem;
 		font-weight: 600;
 		text-transform: uppercase;
-		letter-spacing: 0.15em;
-		color: var(--text-muted);
+		letter-spacing: 0.12em;
+		color: var(--blue-700);
+	}
+	:global(html.dark) .pager-kicker {
+		color: var(--blue-400);
 	}
 
 	.pager-name {

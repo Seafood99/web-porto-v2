@@ -4,6 +4,35 @@
 
 ---
 
+## 16. Peningkatan Kontras Warna Global & Keterbacaan Elemen UI
+
+**Tanggal**: 2026-11-01
+
+**Keputusan**:
+1. Merombak token warna teks global di `src/app.css`:
+   - Light mode: `--text` diubah ke `#0f172a` (Slate-900) dan `--text-muted` ke `#334155` (Slate-700).
+   - Dark mode: `--text` ke `#f8fafc` (Slate-50) dan `--text-muted` ke `#cbd5e1` (Slate-300 yang terang & kontras tinggi).
+2. Memperkuat opasitas frosted glass:
+   - `--nav-bg-scrolled` dan `--glass-bg` dinaikkan ke 85% (`rgba(..., 0.85)` / `0.88` di dark mode) dengan `backdrop-filter: blur(16px)`.
+3. Memperbarui komponen navigasi dan badge:
+   - Link navbar (`.nav-link`) memakai font weight 500 dan warna teks kontras.
+   - Kicker/badges (`VISIT SITE`, dll.) dan navigasi pager bawah (`.pager-link`) diubah menjadi kartu glassmorphism solid dengan border dan box-shadow halus agar tidak tenggelam di atas animasi WebGL canvas.
+4. Logo Tech Stack Menggunakan Brand Color Asli (Warna-warni):
+   - Menambahkan field `color` dan `darkColor` pada registry `src/lib/tech.ts` dengan kode hex resmi masing-masing brand (Svelte orange, React cyan, Tailwind cyan, Laravel red, Drizzle lime, Postgres blue, dll.).
+   - `TechStack.svelte` menginjeksi `--brand-color` dan `--brand-color-dark` ke CSS mask sehingga logo tampil dengan warna asli identitas brand-nya.
+5. Tuning Dark Mode Shader & Hero Text:
+   - Palette `darkColors` di `ShaderBackground.svelte` dituning dari biru-neon terang ke midnight navy yang pekat, dan canvas diberi opasitas 0.85 di dark mode. Ini menghilangkan silau yang sebelumnya menenggelamkan teks putih di dark mode.
+   - Text shadow hero title di dark mode diubah ke soft dark glow agar teks putih tajam dan tidak berkabut.
+
+**Alasan**:
+Sebelumnya skema warna bernuansa serba biru (blue-on-blue) dengan opasitas glass yang terlalu tipis (35% di navbar, 8% di tag pill). Hal ini membuat teks mudah pudar saat gelombang canvas WebGL melintas di belakangnya, serta teks gambar screenshot di halaman detail bocor menembus navbar saat di-scroll.
+
+**Konsekuensi**:
+- Rasio kontras teks melonjak tajam memenuhi standar WCAG AAA.
+- Navigasi atas dan pager bawah tetap melayang secara modern namun teksnya 100% terbaca dengan stabil di atas background dinamis apa pun.
+
+---
+
 ## 15. Halaman Detail Project per Slug + Registry Tech Stack Berlogo
 
 **Tanggal**: 2026-10-31

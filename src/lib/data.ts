@@ -7,7 +7,9 @@ export interface Project {
 	caseStudy: string;
 	tags: TechKey[];
 	link: string;
-	linkLabel: 'Inquire' | 'Visit Site' | 'Private';
+	linkLabel: 'Inquire' | 'Visit Site' | 'Private' | 'Source Code';
+	secondaryLink?: string;
+	secondaryLinkLabel?: string;
 	images: string[];
 	featured?: boolean;
 }
@@ -127,10 +129,12 @@ export const projects: Project[] = [
 		title: 'Wise — AI Wound Identification System',
 		desc: 'Cloud-native backend serving ML predictions, deployed on Google Cloud Run.',
 		caseStudy:
-			'Bangkit Academy capstone selected for distinction. Architected the cloud-native backend handling image upload, preprocessing, and ML prediction serving. Flask app containerized with Docker (multi-stage build for small image size), deployed on Google Cloud Run with auto-scaling. REST API with input validation, CORS, and rate limiting. Achieved 99.9% uptime during the demo period. The ML model uses a CNN to classify wound images into categories.',
+			'Bangkit Academy capstone selected for distinction. Co-built and architected the cloud-native backend handling image upload, preprocessing, and ML prediction serving. Flask app containerized with Docker (multi-stage build for small image size), deployed on Google Cloud Run with auto-scaling. REST API with input validation, CORS, and rate limiting. Achieved 99.9% uptime during the demo period. The ML model uses a CNN to classify wound images into categories.',
 		tags: ['gcp', 'flask', 'docker', 'cloudrun'],
-		link: '/contact',
-		linkLabel: 'Private',
+		link: 'https://github.com/muhafiq/wise',
+		linkLabel: 'Source Code',
+		secondaryLink: 'https://github.com/muhafiq/wise-api-services',
+		secondaryLinkLabel: 'API Services Repo',
 		images: [
 			'/assets/projects/wise/wise-1.webp',
 			'/assets/projects/wise/wise-2.webp',

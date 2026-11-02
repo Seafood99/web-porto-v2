@@ -1,84 +1,42 @@
 <script>
 	import { onMount } from 'svelte';
-	import { theme, toggleTheme } from '$lib/theme.svelte';
-	import { slide, fade } from 'svelte/transition';
+	import { toggleTheme } from '$lib/theme.svelte';
+	import { fade } from 'svelte/transition';
 
 	let isScrolled = $state(false);
-	let isMobile = $state(false);
 	let menuOpen = $state(false);
-	let scrollProgress = $state(0);
-
-	// Aceternity-style inline dynamic styles
-	let navStyle = $derived(`
-		box-shadow: ${scrollProgress > 0.1 ? '0 8px 30px var(--shadow)' : 'none'};
-		border-radius: ${scrollProgress > 0.1 ? '4rem' : '0rem'};
-		width: ${scrollProgress > 0.1 ? '85%' : '100%'};
-		max-width: ${scrollProgress > 0.1 ? '56rem' : '100%'};
-		transform: ${scrollProgress > 0.1 ? 'translateY(10px)' : 'none'};
-		background: ${scrollProgress > 0.1 ? 'var(--nav-bg-scrolled)' : 'transparent'};
-		backdrop-filter: ${scrollProgress > 0.1 ? 'blur(12px) saturate(1.8)' : 'none'};
-		-webkit-backdrop-filter: ${scrollProgress > 0.1 ? 'blur(12px) saturate(1.8)' : 'none'};
-		border: ${scrollProgress > 0.1 ? '1px solid var(--nav-border)' : '1px solid transparent'};
-	`);
-
-	let shimmerOpacity = $state(0);
-	let shimmerTransform = $state('translateX(-50px) rotate(15deg)');
 
 	function handleNavClick() {
-		if (isMobile) menuOpen = false;
-	}
-
-	function handleBackdropClick() {
-		if (menuOpen) menuOpen = false;
-	}
-
-	function updateMobile() {
-		isMobile = window.innerWidth <= 768;
-		if (!isMobile) menuOpen = false;
+		menuOpen = false;
 	}
 
 	onMount(() => {
 		const handleScroll = () => {
-			const scrollY = window.scrollY;
-			const maxScroll = 100;
-			scrollProgress = Math.min(scrollY / maxScroll, 1);
-			isScrolled = scrollY > 50;
+			isScrolled = window.scrollY > 20;
+		};
+
+		const handleResize = () => {
+			if (window.innerWidth > 768) menuOpen = false;
 		};
 
 		handleScroll();
-		updateMobile();
-
 		window.addEventListener('scroll', handleScroll, { passive: true });
-		window.addEventListener('resize', updateMobile);
-
-		// Avatar shimmer animation
-		const shimmerInterval = setInterval(() => {
-			shimmerOpacity = 1;
-			shimmerTransform = 'translateX(50px) rotate(15deg)';
-			setTimeout(() => {
-				shimmerOpacity = 0;
-				shimmerTransform = 'translateX(-50px) rotate(15deg)';
-			}, 1500);
-		}, 4000);
+		window.addEventListener('resize', handleResize);
 
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
-			window.removeEventListener('resize', updateMobile);
-			clearInterval(shimmerInterval);
+			window.removeEventListener('resize', handleResize);
 		};
 	});
 </script>
 
 <!-- Desktop Navbar (Aceternity-style: wrapper div + inner nav) -->
 <div class="desktop-navbar-wrapper">
-	<nav id="navbar" style={navStyle}>
+	<nav id="navbar" class:scrolled={isScrolled}>
 		<a href="/" class="menu-logo" aria-label="Home">
 			<div class="menu-avatar">
 				<span>M</span>
-				<div
-					class="menu-avatar-shine"
-					style="opacity:{shimmerOpacity};transform:{shimmerTransform};transition:all 1.5s ease-in-out"
-				></div>
+				<div class="menu-avatar-shine" aria-hidden="true"></div>
 			</div>
 		</a>
 
@@ -201,6 +159,15 @@
 		gap: 2px;
 		padding: 0.5rem 1.5rem;
 		margin: 0 auto;
+		width: 100%;
+		max-width: 100%;
+		background: transparent;
+		box-shadow: none;
+		border-radius: 0;
+		border: 1px solid transparent;
+		backdrop-filter: none;
+		-webkit-backdrop-filter: none;
+		transform: none;
 		transition:
 			box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1),
 			border-radius 0.6s cubic-bezier(0.22, 1, 0.36, 1),
@@ -210,6 +177,18 @@
 			background-color 0.6s cubic-bezier(0.22, 1, 0.36, 1),
 			backdrop-filter 0.6s cubic-bezier(0.22, 1, 0.36, 1),
 			border-color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	#navbar.scrolled {
+		box-shadow: 0 8px 30px var(--shadow);
+		border-radius: 4rem;
+		width: 85%;
+		max-width: 56rem;
+		transform: translateY(10px);
+		background: var(--nav-bg-scrolled);
+		backdrop-filter: blur(16px) saturate(1.8);
+		-webkit-backdrop-filter: blur(16px) saturate(1.8);
+		border-color: var(--nav-border);
 	}
 
 	/* Mobile navbar: simple solid */
@@ -235,9 +214,9 @@
 	}
 
 	.mobile-navbar.scrolled {
-		background: var(--glass-bg);
-		backdrop-filter: blur(12px) saturate(1.8);
-		-webkit-backdrop-filter: blur(12px) saturate(1.8);
+		background: var(--nav-bg-scrolled);
+		backdrop-filter: blur(16px) saturate(1.8);
+		-webkit-backdrop-filter: blur(16px) saturate(1.8);
 		border-bottom: 1px solid var(--border);
 	}
 	.mobile-navbar-inner {
@@ -399,6 +378,27 @@
 		);
 		width: 50%;
 		pointer-events: none;
+		opacity: 0;
+		transform: translateX(-50px) rotate(15deg);
+		animation: avatar-shine 4s ease-in-out infinite;
+	}
+
+	@keyframes avatar-shine {
+		0%, 100% {
+			opacity: 0;
+			transform: translateX(-50px) rotate(15deg);
+		}
+		15%, 35% {
+			opacity: 1;
+		}
+		45% {
+			opacity: 0;
+			transform: translateX(50px) rotate(15deg);
+		}
+		45.1%, 99.9% {
+			opacity: 0;
+			transform: translateX(-50px) rotate(15deg);
+		}
 	}
 
 	/* Nav links */
@@ -413,8 +413,9 @@
 		padding: 0.5rem 1rem;
 		border-radius: 9999px;
 		text-decoration: none;
-		color: var(--text-muted);
+		color: var(--text);
 		font-size: 0.875rem;
+		font-weight: 500;
 		transition:
 			color 0.3s,
 			background-color 0.3s;

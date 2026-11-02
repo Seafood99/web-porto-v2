@@ -233,6 +233,10 @@
 		transform: scale(0.92);
 	}
 
+	:global(html.dark) .h-timeline.pinned .card {
+		opacity: 0.45;
+	}
+
 	.h-timeline.pinned .card.active {
 		opacity: 1;
 		transform: scale(1);

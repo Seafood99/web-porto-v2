@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Project } from '$lib/data';
 	import TechStack from '$lib/components/TechStack.svelte';
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 
 	let {
 		project,
@@ -19,21 +19,6 @@
 
 	let imageIndex = $state(0);
 	let isOpen = $state(false);
-	let timer: ReturnType<typeof setInterval> | null = null;
-
-	function startSlideshow() {
-		if (images.length <= 1) return;
-		timer = setInterval(() => {
-			imageIndex = (imageIndex + 1) % images.length;
-		}, 4000);
-	}
-
-	function stopSlideshow() {
-		if (timer) {
-			clearInterval(timer);
-			timer = null;
-		}
-	}
 
 	function nextImage() {
 		imageIndex = (imageIndex + 1) % images.length;
@@ -47,14 +32,19 @@
 		imageIndex = i;
 	}
 
+	function handleClose() {
+		isOpen = false;
+		setTimeout(onClose, 280); // wait for animation
+	}
+
 	function handleKeydown(e: KeyboardEvent) {
-		if (e.key === 'Escape') onClose();
+		if (e.key === 'Escape') handleClose();
 		if (e.key === 'ArrowRight') nextImage();
 		if (e.key === 'ArrowLeft') prevImage();
 	}
 
 	function handleBackdropClick(e: MouseEvent) {
-		if ((e.target as HTMLElement).dataset.backdrop) onClose();
+		if ((e.target as HTMLElement).dataset.backdrop) handleClose();
 	}
 
 	onMount(() => {
@@ -64,26 +54,22 @@
 		});
 		window.addEventListener('keydown', handleKeydown);
 		document.body.style.overflow = 'hidden';
-		startSlideshow();
+
+		let timer: ReturnType<typeof setInterval> | null = null;
+		if (images.length > 1) {
+			timer = setInterval(nextImage, 4000);
+		}
+
+		return () => {
+			window.removeEventListener('keydown', handleKeydown);
+			document.body.style.overflow = '';
+			if (timer) clearInterval(timer);
+		};
 	});
 
-	onDestroy(() => {
-		window.removeEventListener('keydown', handleKeydown);
-		document.body.style.overflow = '';
-		stopSlideshow();
-	});
-
-	function handleClose() {
-		isOpen = false;
-		setTimeout(onClose, 280); // wait for animation
-	}
-
-	function isExternal(url: string): boolean {
-		return url.startsWith('http://') || url.startsWith('https://');
-	}
-
-	let linkTarget = $derived(isExternal(project.link) ? '_blank' : undefined);
-	let linkRel = $derived(isExternal(project.link) ? 'noopener noreferrer' : undefined);
+	let isExternal = $derived(project.link.startsWith('http'));
+	let linkTarget = $derived(isExternal ? '_blank' : undefined);
+	let linkRel = $derived(isExternal ? 'noopener noreferrer' : undefined);
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -399,19 +385,21 @@
 
 	.modal-badge {
 		width: fit-content;
-		padding: 0.3rem 0.8rem;
+		padding: 0.35rem 0.85rem;
 		font-size: 0.7rem;
 		font-weight: 600;
-		letter-spacing: 0.03em;
+		letter-spacing: 0.05em;
 		text-transform: uppercase;
 		background: var(--tag-bg);
 		color: var(--blue-700);
-		border: 1px solid var(--border-light);
+		border: 1px solid var(--border);
 		border-radius: 999px;
+		box-shadow: 0 1px 3px rgba(44, 94, 173, 0.06);
 	}
-
+	
 	:global(html.dark) .modal-badge {
 		color: var(--blue-400);
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 	}
 
 	.modal-title {

@@ -13,40 +13,40 @@ html {
 :root {
 	--bg: #eaf4fb;
 	--bg-card: #ffffff;
-	--text: #1a2a47;
-	--text-muted: #3a4a6b;
+	--text: #0f172a;
+	--text-muted: #334155;
 
 	--blue-700: #2c5ead;
 	--blue-500: #1591dc;
 	--blue-400: #4bb8fa;
 	--blue-100: #c4e2f5;
 
-	--border: rgba(44, 94, 173, 0.2);
-	--border-light: rgba(44, 94, 173, 0.15);
+	--border: rgba(44, 94, 173, 0.22);
+	--border-light: rgba(44, 94, 173, 0.16);
 	--shadow: rgba(44, 94, 173, 0.05);
-	--shadow-hover: rgba(44, 94, 173, 0.06);
+	--shadow-hover: rgba(44, 94, 173, 0.08);
 
-	--nav-bg: rgba(255, 255, 255, 0.15);
-	--nav-bg-scrolled: rgba(255, 255, 255, 0.35);
-	--nav-border: rgba(255, 255, 255, 0.18);
+	--nav-bg: rgba(255, 255, 255, 0.25);
+	--nav-bg-scrolled: rgba(255, 255, 255, 0.85);
+	--nav-border: rgba(44, 94, 173, 0.18);
 	--shadow-aceternity: 0 8px 32px rgba(44, 94, 173, 0.08), 0 0 0 0.5px rgba(44, 94, 173, 0.05);
 
 	--scrollbar-track: #c4e2f5;
 	--scrollbar-thumb: #1591dc;
 	--scrollbar-thumb-hover: #2c5ead;
 
-	--btn-secondary-bg: rgba(255, 255, 255, 0.8);
+	--btn-secondary-bg: rgba(255, 255, 255, 0.9);
 	--input-bg: #ffffff;
 	--input-border: rgba(44, 94, 173, 0.3);
 	--footer-border: rgba(44, 94, 173, 0.15);
-	--tag-bg: rgba(44, 94, 173, 0.08);
-	--tag-border: rgba(44, 94, 173, 0.15);
+	--tag-bg: rgba(255, 255, 255, 0.85);
+	--tag-border: rgba(44, 94, 173, 0.22);
 	--tl-line: rgba(44, 94, 173, 0.05);
 
 	--gradient-start: #2c5ead;
 	--gradient-end: #4bb8fa;
 
-	--glass-bg: rgba(255, 255, 255, 0.5);
+	--glass-bg: rgba(255, 255, 255, 0.85);
 	--hover-bg: rgba(44, 94, 173, 0.08);
 	--blue: #2c5ead;
 	--blue-2: #4bb8fa;
@@ -55,40 +55,40 @@ html {
 html.dark {
 	--bg: #0f172a;
 	--bg-card: #1e293b;
-	--text: #e2e8f0;
-	--text-muted: #94a3b8;
+	--text: #f8fafc;
+	--text-muted: #cbd5e1;
 
 	--blue-700: #3b82f6;
 	--blue-500: #60a5fa;
 	--blue-400: #93c5fd;
 	--blue-100: #1e3a5f;
 
-	--border: rgba(59, 130, 246, 0.2);
+	--border: rgba(59, 130, 246, 0.25);
 	--border-light: rgba(59, 130, 246, 0.15);
 	--shadow: rgba(0, 0, 0, 0.2);
 	--shadow-hover: rgba(0, 0, 0, 0.3);
 
-	--nav-bg: rgba(15, 23, 42, 0.15);
-	--nav-bg-scrolled: rgba(15, 23, 42, 0.35);
-	--nav-border: rgba(255, 255, 255, 0.08);
+	--nav-bg: rgba(15, 23, 42, 0.25);
+	--nav-bg-scrolled: rgba(15, 23, 42, 0.88);
+	--nav-border: rgba(255, 255, 255, 0.12);
 	--shadow-aceternity: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 0.5px rgba(255, 255, 255, 0.05);
 
 	--scrollbar-track: #1e293b;
 	--scrollbar-thumb: #3b82f6;
 	--scrollbar-thumb-hover: #60a5fa;
 
-	--btn-secondary-bg: rgba(30, 41, 59, 0.8);
+	--btn-secondary-bg: rgba(30, 41, 59, 0.85);
 	--input-bg: #1e293b;
 	--input-border: rgba(59, 130, 246, 0.3);
 	--footer-border: rgba(59, 130, 246, 0.15);
-	--tag-bg: rgba(59, 130, 246, 0.1);
-	--tag-border: rgba(59, 130, 246, 0.2);
+	--tag-bg: rgba(30, 41, 59, 0.85);
+	--tag-border: rgba(255, 255, 255, 0.12);
 	--tl-line: rgba(59, 130, 246, 0.05);
 
 	--gradient-start: #3b82f6;
 	--gradient-end: #93c5fd;
 
-	--glass-bg: rgba(15, 23, 42, 0.5);
+	--glass-bg: rgba(15, 23, 42, 0.85);
 	--hover-bg: rgba(59, 130, 246, 0.1);
 	--blue: #3b82f6;
 	--blue-2: #93c5fd;

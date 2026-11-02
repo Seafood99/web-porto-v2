@@ -41,10 +41,10 @@
 			[0.173, 0.369, 0.678]
 		],
 		darkColors: [
-			[0.118, 0.145, 0.165],
-			[0.231, 0.322, 0.447],
-			[0.376, 0.647, 0.98],
-			[0.231, 0.514, 0.965]
+			[0.059, 0.090, 0.165],
+			[0.098, 0.153, 0.259],
+			[0.125, 0.224, 0.384],
+			[0.149, 0.298, 0.525]
 		],
 		colorCount: 4,
 		scale: 0.62,
@@ -413,5 +413,10 @@ void main() {
 		z-index: 0;
 		pointer-events: none;
 		display: block;
+		transition: opacity 0.4s ease;
+	}
+
+	:global(html.dark) canvas {
+		opacity: 0.85;
 	}
 </style>
