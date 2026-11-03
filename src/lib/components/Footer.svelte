@@ -4,7 +4,7 @@
 
 <footer class="site-footer">
 	<div class="site-footer__inner">
-		<p class="site-footer__text">Shipped from Jogja.</p>
+		<p class="site-footer__text">Shipped from Bekasi.</p>
 		<div class="site-footer__socials">
 			{#each socialLinks as link}
 				<a

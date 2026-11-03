@@ -41,6 +41,28 @@
 		if (e.key === 'Escape') handleClose();
 		if (e.key === 'ArrowRight') nextImage();
 		if (e.key === 'ArrowLeft') prevImage();
+
+		// Focus trap
+		if (e.key === 'Tab') {
+			const modalEl = document.querySelector<HTMLElement>('.modal');
+			if (!modalEl) return;
+			const focusable = modalEl.querySelectorAll<HTMLElement>(
+				'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+			);
+			const first = focusable[0];
+			const last = focusable[focusable.length - 1];
+			if (e.shiftKey) {
+				if (document.activeElement === first) {
+					e.preventDefault();
+					last.focus();
+				}
+			} else {
+				if (document.activeElement === last) {
+					e.preventDefault();
+					first.focus();
+				}
+			}
+		}
 	}
 
 	function handleBackdropClick(e: MouseEvent) {
@@ -48,9 +70,13 @@
 	}
 
 	onMount(() => {
-		// Trigger open animation
+		// Trigger open animation + focus close button
 		requestAnimationFrame(() => {
 			isOpen = true;
+			requestAnimationFrame(() => {
+				const closeBtn = document.querySelector<HTMLButtonElement>('.close-btn');
+				closeBtn?.focus();
+			});
 		});
 		window.addEventListener('keydown', handleKeydown);
 		document.body.style.overflow = 'hidden';
@@ -340,9 +366,16 @@
 		background: rgba(255, 255, 255, 0.45);
 		cursor: pointer;
 		padding: 0;
+		position: relative;
 		transition:
 			background 0.2s ease,
 			transform 0.2s ease;
+	}
+
+	.dot::before {
+		content: '';
+		position: absolute;
+		inset: -18px;
 	}
 
 	.dot:hover {
@@ -481,7 +514,7 @@
 	}
 
 	/* Responsive */
-	@media (max-width: 640px) {
+	@media (max-width: 768px) {
 		.modal {
 			border-radius: 0;
 			max-height: 100vh;

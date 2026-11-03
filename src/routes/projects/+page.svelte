@@ -14,6 +14,7 @@
 	let hasUnlocked = $state(false);
 	let isPinned = $state(false);
 	let translateX = $state(0);
+	let activeIndex = $state(0);
 
 	function openModal(project: Project) {
 		selectedProject = project;
@@ -28,6 +29,26 @@
 			hasUnlocked = true;
 		}
 	});
+
+	function calculateActiveCard(): number {
+		if (!trackEl) return 0;
+		const cards = trackEl.querySelectorAll<HTMLElement>('.work-card');
+		const screenCenter = window.innerWidth * 0.5;
+		let closestIdx = 0;
+		let minDistance = Infinity;
+
+		cards.forEach((card, i) => {
+			const r = card.getBoundingClientRect();
+			const cardCenter = r.left + r.width * 0.5;
+			const dist = Math.abs(screenCenter - cardCenter);
+			if (dist < minDistance) {
+				minDistance = dist;
+				closestIdx = i;
+			}
+		});
+
+		return closestIdx;
+	}
 
 	function setup() {
 		if (!containerEl || !trackEl) return;
@@ -52,6 +73,7 @@
 
 		if (!isPinned) {
 			translateX = 0;
+			activeIndex = calculateActiveCard();
 			return;
 		}
 
@@ -64,6 +86,8 @@
 
 		const maxTranslate = trackEl.scrollWidth - window.innerWidth;
 		translateX = progress * maxTranslate;
+
+		activeIndex = calculateActiveCard();
 	}
 
 	onMount(() => {
@@ -108,13 +132,15 @@
 <ScrollBack prevRoute="/about" prevLabel="About" />
 
 <div class="page">
-	<a href="/about" class="back">&larr; Back to about</a>
+	<div class="page-intro-wrap">
+		<a href="/about" class="back">&larr; Back to about</a>
 
-	<header class="page-header">
-		<span class="page-kicker">Portfolio</span>
-		<h1 class="heading">Selected Work</h1>
-		<p class="sub">Selected work &mdash; client projects, production systems, and a Bangkit capstone. Hover any card to focus.</p>
-	</header>
+		<header class="page-header">
+			<span class="page-kicker">Portfolio</span>
+			<h1 class="heading">Selected Work</h1>
+			<p class="sub">Client projects, production systems, and a Bangkit capstone. Hover any card to focus.</p>
+		</header>
+	</div>
 
 	<section class="work-track-wrap" bind:this={containerEl} class:pinned={isPinned}>
 		<div class="sticky-viewport">
@@ -123,8 +149,8 @@
 				bind:this={trackEl}
 				style={`transform: translate3d(${-translateX}px, 0, 0)`}
 			>
-				{#each projects as project}
-					<WorkCard {project} onOpen={() => openModal(project)} />
+				{#each projects as project, i}
+					<WorkCard {project} active={i === activeIndex} onOpen={() => openModal(project)} />
 				{/each}
 			</div>
 		</div>
@@ -141,8 +167,14 @@
 	.page {
 		position: relative;
 		z-index: 1;
-		padding: 7rem 0 0;
+		padding: 8rem 0 0;
 		min-height: 100vh;
+	}
+
+	.page-intro-wrap {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 2rem;
 	}
 
 	.back {
@@ -151,7 +183,6 @@
 		text-decoration: none;
 		width: fit-content;
 		transition: color 0.2s;
-		margin-left: 2rem;
 		margin-bottom: 2.5rem;
 		display: block;
 	}
@@ -160,18 +191,18 @@
 	}
 
 	.page-header {
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: 0 2rem 3rem;
+		padding: 2.5rem;
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
+		gap: 0.75rem;
+		margin-bottom: 3.5rem;
 		/* Glass backing so header text reads clearly over shader */
 		background: var(--glass-bg);
 		backdrop-filter: blur(14px) saturate(1.4);
 		-webkit-backdrop-filter: blur(14px) saturate(1.4);
-		border-radius: 0 0 16px 16px;
-		border-bottom: 1px solid var(--border-light);
+		border-radius: 16px;
+		border: 1px solid var(--border-light);
+		box-shadow: var(--shadow-aceternity);
 	}
 
 	.page-kicker {
@@ -225,7 +256,7 @@
 	.work-track {
 		display: flex;
 		gap: 1.5rem;
-		padding: 0 2rem 1rem;
+		padding: 0 calc(50vw - 240px) 1rem;
 		will-change: transform;
 		touch-action: pan-y;
 	}
@@ -240,23 +271,33 @@
 		-webkit-user-select: none;
 	}
 
-	/* The NESH collective hover pattern */
+	/* Card scroll & hover states */
 	.work-track :global(.work-card) {
 		scroll-snap-align: start;
-		transition:
-			opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-			transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-		touch-action: pan-y;
-	}
-
-	/* When ANY card is hovered = dim all cards */
-	.work-track:hover :global(.work-card) {
 		opacity: 0.4;
 		transform: scale(0.98);
 		filter: saturate(0.7);
+		transition:
+			opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+			transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+			filter 0.4s ease;
+		touch-action: pan-y;
 	}
 
-	/* Except the hovered one */
+	/* Active (centered while scrolling) */
+	.work-track :global(.work-card.active) {
+		opacity: 1;
+		transform: scale(1) translateY(-6px);
+		filter: saturate(1);
+	}
+
+	/* When cursor is hovering ANY card, prioritaskan kartu yg di-hover */
+	.work-track:hover :global(.work-card) {
+		opacity: 0.35;
+		transform: scale(0.96);
+		filter: saturate(0.6);
+	}
+
 	.work-track:hover :global(.work-card:hover) {
 		opacity: 1;
 		transform: scale(1) translateY(-6px);
@@ -265,21 +306,31 @@
 
 	@media (max-width: 768px) {
 		.page {
-			padding: 5rem 0 0;
+			padding: 6rem 0 0;
+		}
+
+		.page-intro-wrap {
+			padding: 0 1.25rem;
 		}
 
 		.back {
-			margin-left: 1.25rem;
 			margin-bottom: 1.5rem;
 		}
 
 		.page-header {
-			padding: 0 1.25rem 2rem;
+			padding: 2rem 1.5rem;
+			margin-bottom: 2.5rem;
 		}
 
 		.work-track {
 			gap: 1rem;
-			padding: 0 1.25rem;
+			padding: 0 calc(50vw - 160px);
+		}
+	}
+
+	@media (max-width: 480px) {
+		.work-track {
+			padding: 0 calc(50vw - 140px);
 		}
 	}
 </style>

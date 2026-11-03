@@ -35,6 +35,24 @@
 		update();
 	}
 
+	function calculateActiveCard(cards: NodeListOf<HTMLElement>): number {
+		const screenCenter = window.innerWidth * 0.5;
+		let closestIdx = 0;
+		let minDistance = Infinity;
+
+		cards.forEach((card, i) => {
+			const r = card.getBoundingClientRect();
+			const cardCenter = r.left + r.width * 0.5;
+			const dist = Math.abs(screenCenter - cardCenter);
+			if (dist < minDistance) {
+				minDistance = dist;
+				closestIdx = i;
+			}
+		});
+
+		return closestIdx;
+	}
+
 	function handleViewportScroll() {
 		if (!viewport || isPinned) return;
 		const maxScroll = viewport.scrollWidth - viewport.clientWidth;
@@ -45,12 +63,7 @@
 		progress = viewport.scrollLeft / maxScroll;
 
 		const cards = viewport.querySelectorAll<HTMLElement>('.card');
-		let active = 0;
-		cards.forEach((card, i) => {
-			const r = card.getBoundingClientRect();
-			if (r.left + r.width * 0.4 < window.innerWidth * 0.5) active = i;
-		});
-		activeIndex = active;
+		activeIndex = calculateActiveCard(cards);
 	}
 
 	function update() {
@@ -73,12 +86,7 @@
 		translateX = progress * maxTranslate;
 
 		const cards = track.querySelectorAll<HTMLElement>('.card');
-		let active = 0;
-		cards.forEach((card, i) => {
-			const r = card.getBoundingClientRect();
-			if (r.left + r.width * 0.4 < window.innerWidth * 0.5) active = i;
-		});
-		activeIndex = active;
+		activeIndex = calculateActiveCard(cards);
 	}
 
 	onMount(() => {
@@ -209,7 +217,7 @@
 	.track {
 		display: flex;
 		gap: 2.5rem;
-		padding: 0 10vw;
+		padding: 0 calc(50vw - 190px);
 		will-change: transform;
 		touch-action: pan-y;
 	}
@@ -433,6 +441,10 @@
 	}
 
 	@media (max-width: 768px) {
+		.track {
+			padding: 0 calc(50vw - 145px);
+		}
+
 		.card {
 			width: 290px;
 		}

@@ -23,7 +23,7 @@
 		<span class="kicker">About</span>
 		<h1 class="heading">How I got here</h1>
 		<p class="lead">
-			I'm a full stack engineer based in Jogja. This is the whole path — from the first lecture
+			I'm a full stack engineer based in Bekasi. This is the whole path — from the first lecture
 			hall to the systems I'm shipping right now.
 		</p>
 	</header>

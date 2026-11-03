@@ -19,8 +19,8 @@
 	function handleEmailInput(e: Event) {
 		const target = e.target as HTMLInputElement;
 		email = target.value;
-		if (email && !email.toLowerCase().endsWith('@gmail.com')) {
-			emailError = 'Only @gmail.com addresses are allowed.';
+		if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+			emailError = 'Please enter a valid email address.';
 		} else {
 			emailError = '';
 		}
@@ -37,8 +37,8 @@
 	function handleSubmit(e: SubmitEvent) {
 		e.preventDefault();
 
-		if (!email.toLowerCase().endsWith('@gmail.com')) {
-			emailError = 'Only @gmail.com addresses are allowed.';
+		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+			emailError = 'Please enter a valid email address.';
 			return;
 		}
 
@@ -73,14 +73,16 @@
 				<p class="sub">Let's build something impactful. Drop a message or connect via social links.</p>
 			</header>
 
-			<nav class="social-links" role="list">
+			<ul class="social-links">
 				{#each socialLinks as link}
-					<a class="link-card" href={link.href} aria-label={link.ariaLabel} target="_blank" rel="noopener noreferrer">
-						<span class="link-name">{link.name}</span>
-						<span class="link-arrow">&rarr;</span>
-					</a>
+					<li>
+						<a class="link-card" href={link.href} aria-label={link.ariaLabel} target="_blank" rel="noopener noreferrer">
+							<span class="link-name">{link.name}</span>
+							<span class="link-arrow">&rarr;</span>
+						</a>
+					</li>
 				{/each}
-			</nav>
+			</ul>
 		</div>
 
 		<div class="form-container">
@@ -105,7 +107,7 @@
 						id="email"
 						bind:value={email}
 						oninput={handleEmailInput}
-						placeholder="your.email@gmail.com"
+						placeholder="your.email@example.com"
 						required
 						class="form-input"
 						class:error={emailError}
@@ -373,17 +375,6 @@
 		cursor: not-allowed;
 	}
 
-	@media (max-width: 900px) {
-		.contact-grid {
-			grid-template-columns: 1fr;
-			gap: 4rem;
-		}
-
-		.form-container {
-			padding: 2rem;
-		}
-	}
-
 	@media (max-width: 768px) {
 		.page {
 			padding: 6rem 1.25rem 0;
@@ -391,6 +382,15 @@
 
 		.back {
 			margin-bottom: 2rem;
+		}
+
+		.contact-grid {
+			grid-template-columns: 1fr;
+			gap: 2.5rem;
+		}
+
+		.form-container {
+			padding: 2rem;
 		}
 	}
 </style>

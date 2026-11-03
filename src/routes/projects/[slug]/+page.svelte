@@ -137,6 +137,19 @@
 					<path d="M7 17l9.2-9.2M17 17V7H7" />
 				</svg>
 			</a>
+			{#if project.secondaryLink}
+				<a
+					href={project.secondaryLink}
+					class="cta secondary"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					{project.secondaryLinkLabel ?? 'Secondary Link'}
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M7 17l9.2-9.2M17 17V7H7" />
+					</svg>
+				</a>
+			{/if}
 		</div>
 	</div>
 
@@ -331,9 +344,15 @@
 		background: rgba(255, 255, 255, 0.45);
 		cursor: pointer;
 		padding: 0;
+		position: relative;
 		transition:
 			background 0.2s ease,
 			transform 0.2s ease;
+	}
+	.dot::before {
+		content: '';
+		position: absolute;
+		inset: -18px;
 	}
 	.dot:hover {
 		background: rgba(255, 255, 255, 0.75);
@@ -407,6 +426,20 @@
 	}
 	.cta:hover svg {
 		transform: translate(2px, -2px);
+	}
+
+	.cta.secondary {
+		background: transparent;
+		color: var(--blue-700);
+		border: 1px solid var(--border);
+		box-shadow: none;
+	}
+	.cta.secondary:hover {
+		background: var(--tag-bg);
+		border-color: var(--blue-500);
+	}
+	:global(html.dark) .cta.secondary {
+		color: var(--blue-400);
 	}
 
 	/* Pager */

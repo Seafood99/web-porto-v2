@@ -85,11 +85,12 @@
 </div>
 
 <!-- Mobile Navbar -->
-<nav class="mobile-navbar" class:scrolled={isScrolled}>
+<nav class="mobile-navbar" class:scrolled={isScrolled} aria-label="Primary navigation">
 	<div class="mobile-navbar-inner">
 		<a href="/" class="menu-logo">
 			<div class="menu-avatar">
 				<span>M</span>
+				<div class="menu-avatar-shine" aria-hidden="true"></div>
 			</div>
 		</a>
 	<button
@@ -360,7 +361,7 @@
 		height: 40px;
 		border-radius: 50%;
 		overflow: hidden;
-		background: linear-gradient(135deg, var(--blue), var(--blue-2));
+		background: linear-gradient(135deg, var(--blue-700), var(--blue-400));
 		display: flex;
 		align-items: center;
 		justify-content: center;

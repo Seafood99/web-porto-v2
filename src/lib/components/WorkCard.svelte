@@ -4,9 +4,11 @@
 
 	let {
 		project,
+		active = false,
 		onOpen = () => {}
 	}: {
 		project: Project;
+		active?: boolean;
 		onOpen?: () => void;
 	} = $props();
 
@@ -22,6 +24,8 @@
 
 	function startSlideshow() {
 		if (images.length <= 1) return;
+		if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		if (timer) return;
 		timer = setInterval(() => {
 			imageIndex = (imageIndex + 1) % images.length;
 		}, 3500);
@@ -34,26 +38,21 @@
 		}
 	}
 
+	$effect(() => {
+		if (active || isHovered) {
+			startSlideshow();
+		} else {
+			stopSlideshow();
+			imageIndex = 0;
+		}
+	});
+
 	function handleMouseEnter() {
 		isHovered = true;
-		startSlideshow();
 	}
 
 	function handleMouseLeave() {
 		isHovered = false;
-		stopSlideshow();
-		imageIndex = 0;
-	}
-
-	function handleClick(e: MouseEvent) {
-		// Don't open modal if clicking the external link
-		const target = e.target as HTMLElement;
-		if (target.closest('a') || target.closest('[data-external]')) return;
-		onOpen();
-	}
-
-	function handleKeydown(e: KeyboardEvent) {
-		if (e.key === 'Enter') onOpen();
 	}
 
 	function isExternal(url: string): boolean {
@@ -71,19 +70,14 @@
 	});
 </script>
 
-<!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<!-- svelte-ignore a11y_no_static_element_interactions -->
 <article
 	class="work-card"
 	class:hovered={isHovered}
+	class:active={active}
 	onmouseenter={handleMouseEnter}
 	onmouseleave={handleMouseLeave}
-	onclick={handleClick}
-	onkeydown={handleKeydown}
-	role="button"
-	tabindex="0"
 >
+	<a href="/projects/{project.slug}/" class="card-overlay-link" aria-label="View {projectName} project details"></a>
 	<div class="work-media">
 		{#each images as img, i}
 			<img
@@ -143,8 +137,15 @@
 			transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
-	.work-card:hover {
+	.work-card:hover,
+	.work-card.active {
 		transform: translateY(-6px);
+	}
+
+	.card-overlay-link {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
 	}
 
 	/* Media */
@@ -172,7 +173,8 @@
 		opacity: 1;
 	}
 
-	.work-card:hover .work-media img.active {
+	.work-card:hover .work-media img.active,
+	.work-card.active .work-media img.active {
 		transform: scale(1.05);
 	}
 
@@ -190,7 +192,8 @@
 		transition: opacity 0.4s ease;
 	}
 
-	.work-card:hover .work-overlay {
+	.work-card:hover .work-overlay,
+	.work-card.active .work-overlay {
 		opacity: 0.7;
 	}
 
@@ -280,18 +283,21 @@
 		opacity: 0;
 	}
 
-	.work-card:hover .work-arrow-link {
+	.work-card:hover .work-arrow-link,
+	.work-card.active .work-arrow-link {
 		background: var(--blue-500);
 		color: #fff;
 		transform: scale(1.05);
 	}
 
-	.work-card:hover .work-arrow-inner svg:first-child {
+	.work-card:hover .work-arrow-inner svg:first-child,
+	.work-card.active .work-arrow-inner svg:first-child {
 		transform: translateX(100%);
 		opacity: 0;
 	}
 
-	.work-card:hover .work-arrow-inner .arrow-second {
+	.work-card:hover .work-arrow-inner .arrow-second,
+	.work-card.active .work-arrow-inner .arrow-second {
 		transform: translateX(0);
 		opacity: 1;
 	}
@@ -321,7 +327,8 @@
 		color: #fff;
 	}
 
-	.work-card:hover .work-label {
+	.work-card:hover .work-label,
+	.work-card.active .work-label {
 		background: var(--blue-500);
 		color: #fff;
 	}
