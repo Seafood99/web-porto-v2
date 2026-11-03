@@ -4,6 +4,25 @@
 
 ---
 
+## 17. Perbaikan Routing Prerender Static & Clean URLs di Production (Vercel)
+
+**Tanggal**: 2026-11-03
+
+**Keputusan**:
+1. Menambahkan `export const trailingSlash = 'always'` pada root `src/routes/+layout.ts`. Ini menginstruksikan `@sveltejs/adapter-static` untuk meng-generate struktur direktori dengan `index.html` (misal `public/projects/wise/index.html` dan `public/projects/index.html`), bukan file flat `projects.html` dan `projects/wise.html`.
+2. Menambahkan `"cleanUrls": true` dan `"trailingSlash": true` pada `vercel.json`.
+3. Memperbarui link navigasi internal ke format trailing slash (`/projects/{slug}/`, `/projects/`) di `ProjectModal.svelte`, `WorkCard.svelte`, dan `projects/[slug]/+page.svelte`.
+
+**Alasan**:
+Sebelumnya saat mengklik 'Read full case study' atau mengakses URL `/projects/[slug]` secara langsung di production, Vercel gagal me-load halaman (404 Not Found). Hal ini disebabkan oleh:
+- Vercel (static hosting `"framework": null`) mencari file `projects/wise` tanpa ekstensi `.html` yang secara fisik tidak ada.
+- Adanya file flat `public/projects.html` yang bentrok dengan folder `public/projects/` di filesystem static server.
+
+**Konsekuensi**:
+- Seluruh rute prerender statis (termasuk semua sub-halaman detail case study `/projects/[slug]/`) dapat di-load 100% lancar di production, baik via navigasi SPA, klik modal, maupun reload/direct link URL.
+
+---
+
 ## 16. Peningkatan Kontras Warna Global & Keterbacaan Elemen UI
 
 **Tanggal**: 2026-11-01

@@ -152,7 +152,7 @@
 						<path d="M7 17l9.2-9.2M17 17V7H7" />
 					</svg>
 				</a>
-				<a href="/projects/{project.slug}" class="modal-cta secondary">
+				<a href="/projects/{project.slug}/" class="modal-cta secondary">
 					Read full case study
 				</a>
 				<button class="modal-cta secondary" onclick={handleClose}>

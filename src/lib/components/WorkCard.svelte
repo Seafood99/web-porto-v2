@@ -98,7 +98,7 @@
 
 	<div class="work-info">
 		<div class="work-text">
-			<a class="work-name" href="/projects/{project.slug}">{projectName}</a>
+			<a class="work-name" href="/projects/{project.slug}/">{projectName}</a>
 			{#if projectSubtitle}
 				<p class="work-subtitle">{projectSubtitle}</p>
 			{/if}

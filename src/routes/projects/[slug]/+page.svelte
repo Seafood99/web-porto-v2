@@ -69,10 +69,10 @@
 	<meta name="description" content={project.desc} />
 </svelte:head>
 
-<ScrollBack prevRoute="/projects" prevLabel="Projects" />
+<ScrollBack prevRoute="/projects/" prevLabel="Projects" />
 
 <div class="page">
-	<a href="/projects" class="back">&larr; Back to projects</a>
+	<a href="/projects/" class="back">&larr; Back to projects</a>
 
 	<header class="head">
 		<span class="kicker">{project.linkLabel}</span>
@@ -142,7 +142,7 @@
 
 	<nav class="pager" aria-label="Project navigation">
 		{#if data.previous}
-			<a href="/projects/{data.previous.slug}" class="pager-link">
+			<a href="/projects/{data.previous.slug}/" class="pager-link">
 				<span class="pager-kicker">&larr; Previous</span>
 				<span class="pager-name">{getShortTitle(data.previous.title)}</span>
 			</a>
@@ -151,7 +151,7 @@
 		{/if}
 
 		{#if data.next}
-			<a href="/projects/{data.next.slug}" class="pager-link align-right">
+			<a href="/projects/{data.next.slug}/" class="pager-link align-right">
 				<span class="pager-kicker">Next &rarr;</span>
 				<span class="pager-name">{getShortTitle(data.next.title)}</span>
 			</a>
