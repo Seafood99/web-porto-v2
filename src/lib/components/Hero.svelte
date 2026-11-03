@@ -9,14 +9,16 @@
 </script>
 
 <section class="hero-content" id="home">
-	<div class="title-row">
-		<h1 id="hero-title" class="hero-title">Dawam Amali</h1>
-		<span class="identity-pill" class:show={mounted}>Full Stack Developer</span>
+	<div class="hero-glass">
+		<div class="title-row">
+			<h1 id="hero-title" class="hero-title">Dawam Amali</h1>
+			<span class="identity-pill" class:show={mounted}>Full Stack Developer</span>
+		</div>
+		<p class="hero-subtitle" class:show={mounted}>
+			I'm a full stack engineer currently based in Jogja. I build and ship production web apps
+			with SvelteKit, Laravel, and GCP.
+		</p>
 	</div>
-	<p class="hero-subtitle" class:show={mounted}>
-		I'm a full stack engineer currently based in Jogja. I build and ship production web apps
-		with SvelteKit, Laravel, and GCP.
-	</p>
 </section>
 
 <style>
@@ -32,6 +34,21 @@
 		padding: 6rem 2rem 4rem;
 		max-width: 780px;
 		margin: 0 auto;
+	}
+
+	/* Glass backing around hero text so it's readable over the shader */
+	.hero-glass {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0;
+		padding: 3rem 2.5rem;
+		background: var(--glass-bg);
+		backdrop-filter: blur(16px) saturate(1.5);
+		-webkit-backdrop-filter: blur(16px) saturate(1.5);
+		border-radius: 20px;
+		border: 1px solid var(--border-light);
+		box-shadow: var(--shadow-aceternity);
 	}
 
 	.title-row {

@@ -186,6 +186,13 @@
 		flex-direction: column;
 		gap: 0.75rem;
 		margin-bottom: 2.5rem;
+		padding: 2rem 2.5rem;
+		background: var(--glass-bg);
+		backdrop-filter: blur(14px) saturate(1.4);
+		-webkit-backdrop-filter: blur(14px) saturate(1.4);
+		border-radius: 16px;
+		border: 1px solid var(--border-light);
+		box-shadow: var(--shadow-aceternity);
 	}
 
 	.kicker {

@@ -166,6 +166,12 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
+		/* Glass backing so header text reads clearly over shader */
+		background: var(--glass-bg);
+		backdrop-filter: blur(14px) saturate(1.4);
+		-webkit-backdrop-filter: blur(14px) saturate(1.4);
+		border-radius: 0 0 16px 16px;
+		border-bottom: 1px solid var(--border-light);
 	}
 
 	.page-kicker {

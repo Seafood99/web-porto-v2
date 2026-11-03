@@ -101,6 +101,24 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
+/* ─── Readability helpers ────────────────────────────────────────────── */
+
+/* Glass panel: frosted backing for page content sitting over the shader */
+.content-panel {
+	background: var(--glass-bg);
+	backdrop-filter: blur(14px) saturate(1.4);
+	-webkit-backdrop-filter: blur(14px) saturate(1.4);
+	border-radius: 16px;
+	border: 1px solid var(--border-light);
+}
+
+/* Inline text-shadow utility for dark-mode legibility on headings */
+:global(html.dark) h1,
+:global(html.dark) h2,
+:global(html.dark) h3 {
+	text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+}
+
 ::-webkit-scrollbar {
 	width: 10px;
 }

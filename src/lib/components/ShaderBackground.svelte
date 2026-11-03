@@ -417,6 +417,6 @@ void main() {
 	}
 
 	:global(html.dark) canvas {
-		opacity: 0.85;
+		opacity: 0.65;
 	}
 </style>
