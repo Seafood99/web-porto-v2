@@ -1,4 +1,7 @@
 node_modules/
+.agents/skills/
+.commandcode/skills/
+skills-lock.json
 .svelte-kit
 build
 .env*
