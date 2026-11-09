@@ -4,6 +4,56 @@
 
 ---
 
+## 18. Hero Homepage: Komposisi Editorial + Scrim Edge-less, Tanpa Glass Card
+
+**Tanggal**: 2026-11-09
+
+**Keputusan**:
+1. Menghapus `.hero-glass` (frosted card: blur 16px, border, radius 20px, shadow) dari
+   `src/lib/components/Hero.svelte`.
+2. Mengganti center stack menjadi grid editorial dua kolom: pitch rata kiri (nama `Instrument
+   Serif` dua baris — `Dawam` regular, `Amali` italic — lede, satu CTA utama + satu text link)
+   dan ledger fakta di kanan (`Latest project`, `Education`) dengan hairline, rata bawah bersama
+   CTA. Eyebrow peran di atas nama dihapus — nama jadi satu-satunya pembuka.
+3. Menambahkan scrim radial *edge-less* di `.hero::before`: `color-mix(in srgb, var(--bg) 82–88%, transparent)`
+   di inti, memudar ke transparan. Tidak ada border, shadow, atau radius — bukan card. Hero dibuat
+   full-bleed dengan `.hero-inner` sebagai pembatas lebar; scrim memakai `position: fixed; inset: 0`
+   (bukan `-50vw`/`absolute`) supaya tidak menambah `scrollWidth` dan tidak meninggalkan garis
+   potong saat hero discroll.
+4. Memindahkan animasi masuk dari JS-gated (`class:show` + `onMount`) ke CSS `@keyframes rise`
+   dengan `animation-fill-mode: both`, hanya di dalam `@media (prefers-reduced-motion: no-preference)`.
+5. Menyeragamkan CTA: primary `View selected work` (48px) + text link `My journey` (44px),
+   keduanya dengan `:focus-visible` ring 2px.
+
+**Alasan**:
+- Glass card adalah *unearned blur*: panel itu ada hanya untuk keterbacaan di atas shader, dan
+  membuat hero terasa seperti template. Center stack juga tidak memberi satu aksi dominan.
+- Judul hero memakai Helvetica Neue, satu-satunya tempat yang keluar dari tipografi
+  `Instrument Serif` milik situs.
+- Lede, badge, dan CTA sebelumnya `opacity: 0` sampai JS mount. Kalau hydration gagal, isi hero
+  tidak pernah muncul.
+- Scrim tetap diperlukan: shader light mode memiliki pita biru gelap di belakang area teks
+  (luminance minimum terukur 0.088) yang membuat kontras teks jatuh ke ~1.7:1 tanpa lapisan.
+
+**Konsekuensi**:
+- Kontras terukur (efektif termasuk scrim): lede/ledger 7.2–8.9:1, judul 13.4–16.8:1; dark mode
+  11.6–17.1:1. Semua lolos WCAG AA/AAA.
+- Shader masih terlihat (scrim semi-transparan 82–88%, memudar ke luar), dan tetap utuh — file
+  `src/lib/components/ShaderBackground.svelte` tidak disentuh.
+- Hero sekarang memakai `projects[0]` dan `education[0]` dari `src/lib/data.ts` untuk ledger,
+  bukan teks hardcoded. Data pendidikan diperbarui: lulus 2026, GPA 3.60 (sebelumnya 3.75).
+- Tidak ada overflow horizontal di 320/375/1440/1920/2560px (`scrollWidth` = `clientWidth`);
+  CTA 48/44px; focus-visible terverifikasi; `prefers-reduced-motion: reduce` mematikan animasi.
+- Footer homepage: teks "Shipped from Bekasi." dihapus, ikon sosial rata tengah, target 44px.
+- ScrollIndicator "Next page" diperkecil (pill 77px, ring 46px, label 1.35–1.65rem) dan section
+  diturunkan ke 46vh (mobile 42vh).
+- Tiga report diagnostik tersimpan di `.commandcode/design/` (smell, checkup, review).
+
+**Trade-offs**: hero tidak lagi identik dengan panel glass di halaman lain (about/projects) yang
+masih memakai `--glass-bg`; halaman lain belum diubah karena scope permintaan hanya homepage.
+
+---
+
 ## 17. Perbaikan Routing Prerender Static & Clean URLs di Production (Vercel)
 
 **Tanggal**: 2026-11-03

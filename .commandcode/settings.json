@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(cd \"$COMMANDCODE_SCRATCHPAD\" stats() { magick \"$1\" -crop \"$2\" +repage -colorspace Gray -format \"min=%[fx:minima] max=%[fx:maxima] mean=%[fx:mean]\" info:; } for m in light dark; do echo \"== $m\" echo \"title $(stats canvas-$m.png 726x211+192+268)\" echo \"lede $(stats canvas-$m.png 488x64+192+507)\" echo \"cta $(stats canvas-$m.png 218x48+192+611)\" echo \"ledger $(stats canvas-$m.png 250x216+998+443)\" done)",
+      "Shell(cp:*)",
+      "Shell(COMMANDCODE_SCRATCHPAD= node ./.verify-scrim.tmp.mjs)",
+      "Shell(rm:*)"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  }
+}

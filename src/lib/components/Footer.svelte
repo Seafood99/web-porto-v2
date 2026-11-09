@@ -4,8 +4,8 @@
 
 <footer class="site-footer">
 	<div class="site-footer__inner">
-		<p class="site-footer__text">Shipped from Bekasi.</p>
 		<div class="site-footer__socials">
+		
 			{#each socialLinks as link}
 				<a
 					href={link.href}
@@ -99,16 +99,9 @@
 		max-width: 780px;
 		margin: 0 auto;
 		display: flex;
-		justify-content: space-between;
+		justify-content: center;
 		align-items: center;
 		pointer-events: auto;
-	}
-
-	.site-footer__text {
-		font-size: 0.8rem;
-		color: var(--text);
-		letter-spacing: 0.02em;
-		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 	}
 
 	.site-footer__socials {
@@ -121,23 +114,29 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 36px;
-		height: 36px;
+		width: 44px;
+		height: 44px;
 		border-radius: 50%;
 		background: color-mix(in srgb, var(--bg) 80%, transparent);
 		color: var(--text);
 		transition:
 			color 0.2s ease,
-			background 0.2s ease;
+			background 0.2s ease,
+			transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 		backdrop-filter: blur(4px);
 	}
 	.social-link:hover {
 		color: var(--blue-700);
 		background: color-mix(in srgb, var(--bg-card) 95%, transparent);
+		transform: translateY(-2px);
+	}
+	.social-link:focus-visible {
+		outline: 2px solid var(--blue-500);
+		outline-offset: 3px;
 	}
 	.social-link svg {
-		width: 16px;
-		height: 16px;
+		width: 18px;
+		height: 18px;
 	}
 
 	@media (max-width: 600px) {
@@ -146,19 +145,12 @@
 			padding-bottom: 1.25rem;
 			padding-top: 2rem;
 		}
-		.site-footer__text {
-			font-size: 0.75rem;
-		}
 		.site-footer__socials {
 			gap: 0.85rem;
 		}
 		.social-link {
-			width: 32px;
-			height: 32px;
-		}
-		.social-link svg {
-			width: 14px;
-			height: 14px;
+			width: 44px;
+			height: 44px;
 		}
 	}
 </style>

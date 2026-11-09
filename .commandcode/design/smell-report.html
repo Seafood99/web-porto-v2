@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>web-porto-v2 - Smell Report</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+		body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+		.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+		.report-section { border: 1px solid #222226; background: #0a0a0b; position: relative; }
+		.corner-box { position: absolute; width: 20px; height: 20px; border: 1px solid #222226; background: #000; }
+	</style>
+</head>
+<body class="bg-black text-[#fafafa]">
+	<main class="mx-auto w-full max-w-6xl px-5 py-8 md:px-10 md:py-12">
+		<header class="report-section mb-8 p-6 md:p-8">
+			<div class="corner-box left-0 top-0 -translate-x-1/2 -translate-y-1/2"></div>
+			<div class="corner-box right-0 top-0 translate-x-1/2 -translate-y-1/2"></div>
+			<div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+				<div>
+					<div class="mono mb-2 text-xs tracking-widest text-[#666]">// SMELL</div>
+					<h1 class="text-4xl font-bold tracking-tight md:text-6xl">web-porto-v2</h1>
+				</div>
+				<div class="mono text-left text-xs text-[#666] md:text-right">
+					<div>COMMANDCODE REPORT</div>
+					<div class="text-[#444]">2026-11-07</div>
+				</div>
+			</div>
+		</header>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="corner-box left-0 top-0 -translate-x-1/2 -translate-y-1/2"></div>
+			<div class="corner-box right-0 top-0 translate-x-1/2 -translate-y-1/2"></div>
+			<div class="grid gap-8 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+				<div>
+					<div class="mono mb-2 text-xs tracking-widest text-[#666]">// OVERALL</div>
+					<div class="text-6xl font-bold tracking-tight md:text-7xl">5</div>
+					<div class="mt-1 text-lg text-[#666]">/ 10</div>
+					<div class="mt-4 inline-flex border border-[#fbbf24]/30 bg-[#fbbf24]/10 px-3 py-1 text-sm text-[#fbbf24]">NEEDS CHANGES</div>
+				</div>
+				<div>
+					<div class="mono mb-3 text-xs tracking-widest text-[#666]">// TL;DR</div>
+					<p class="text-sm leading-6 text-[#a0a0a0]">Hero is a centered frosted card: glass panel, centered stack, Helvetica title, pill badge, and chip-styled stack names. The shader is signature; the hero above it is a template reflex.</p>
+					<p class="mt-4 text-sm leading-6 text-[#fbbf24]">Recompose as a left-aligned editorial index with no glass backing.</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="mono mb-6 text-xs tracking-widest text-[#666]">// ODOR HEURISTICS</div>
+			<div class="overflow-x-auto">
+				<table class="w-full min-w-[720px] border-collapse text-sm">
+					<thead>
+						<tr class="border-b border-[#222226] text-left mono text-xs text-[#666]">
+							<th class="py-3 pr-4 font-normal">#</th>
+							<th class="py-3 pr-4 font-normal">ODOR</th>
+							<th class="py-3 pr-4 font-normal">FOUND</th>
+							<th class="py-3 font-normal">EVIDENCE</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#555]">1</td><td class="py-3 pr-4">Tech gradient</td><td class="py-3 pr-4 text-[#34d399]">NO</td><td class="py-3 text-[#a0a0a0]">Single blue family, no violet/cyan gradient</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#555]">2</td><td class="py-3 pr-4">Generic tech hue</td><td class="py-3 pr-4 text-[#fbbf24]">FAINT</td><td class="py-3 text-[#a0a0a0]">Blue is the default for developer portfolios</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#555]">3</td><td class="py-3 pr-4">Feature tile grid</td><td class="py-3 pr-4 text-[#34d399]">NO</td><td class="py-3 text-[#a0a0a0]">No tile grid</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#555]">4</td><td class="py-3 pr-4">Accent rail</td><td class="py-3 pr-4 text-[#34d399]">NO</td><td class="py-3 text-[#a0a0a0]">No colored rails</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#555]">5</td><td class="py-3 pr-4">Unearned blur</td><td class="py-3 pr-4 text-[#f43f5e]">YES</td><td class="py-3 text-[#a0a0a0]">.hero-glass frosted panel over the shader</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#555]">6</td><td class="py-3 pr-4">Stat monument</td><td class="py-3 pr-4 text-[#34d399]">NO</td><td class="py-3 text-[#a0a0a0]">No stat blocks</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#555]">7</td><td class="py-3 pr-4">Icon topper</td><td class="py-3 pr-4 text-[#34d399]">NO</td><td class="py-3 text-[#a0a0a0]">No icon above headings</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#555]">8</td><td class="py-3 pr-4">Bounce everywhere</td><td class="py-3 pr-4 text-[#34d399]">NO</td><td class="py-3 text-[#a0a0a0]">No bounce or elastic easing</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#555]">9</td><td class="py-3 pr-4">Default type</td><td class="py-3 pr-4 text-[#f43f5e]">YES</td><td class="py-3 text-[#a0a0a0]">Helvetica hero vs Instrument Serif site-wide</td></tr>
+						<tr><td class="py-3 pr-4 text-[#555]">10</td><td class="py-3 pr-4">Center stack</td><td class="py-3 pr-4 text-[#f43f5e]">YES</td><td class="py-3 text-[#a0a0a0]">Everything centered in a 780px column</td></tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="mono mb-6 text-xs tracking-widest text-[#666]">// PRIORITY ISSUES</div>
+			<div class="space-y-5">
+				<article class="border border-[#2a1d22] bg-[#110b0d] p-5">
+					<div class="mono mb-2 text-xs text-[#f43f5e]">HIGH</div>
+					<h2 class="mb-2 text-lg font-semibold">Unearned glass panel</h2>
+					<p class="mb-4 text-sm leading-6 text-[#a0a0a0]">Hero.svelte:56-68 — blur 16px, border, radius 20px, shadow wrapping every line of hero copy.</p>
+					<div class="border-l border-[#fbbf24] pl-4 text-sm leading-6 text-[#fbbf24]">FIX: Delete the panel. Left-aligned grid with a hairline-separated facts ledger.</div>
+				</article>
+				<article class="border border-[#2a1d22] bg-[#110b0d] p-5">
+					<div class="mono mb-2 text-xs text-[#f43f5e]">HIGH</div>
+					<h2 class="mb-2 text-lg font-semibold">Center stack</h2>
+					<p class="mb-4 text-sm leading-6 text-[#a0a0a0]">Hero.svelte:41-53 — flex center, center text, no dominant action.</p>
+					<div class="border-l border-[#fbbf24] pl-4 text-sm leading-6 text-[#fbbf24]">FIX: Two-column editorial grid, left-aligned pitch, one primary action.</div>
+				</article>
+				<article class="border border-[#2a1d22] bg-[#110b0d] p-5">
+					<div class="mono mb-2 text-xs text-[#fbbf24]">MEDIUM</div>
+					<h2 class="mb-2 text-lg font-semibold">Default hero type</h2>
+					<p class="mb-4 text-sm leading-6 text-[#a0a0a0]">Hero.svelte:79-88 — Helvetica Neue 800, single line.</p>
+					<div class="border-l border-[#fbbf24] pl-4 text-sm leading-6 text-[#fbbf24]">FIX: Instrument Serif lockup, italic surname, two lines.</div>
+				</article>
+			</div>
+		</section>
+
+		<footer class="mono py-8 text-center text-xs tracking-widest text-[#444]">Generated with CommandCode - 2026-11-07</footer>
+	</main>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>web-porto-v2 - Checkup Report</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+		body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+		.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+		.report-section { border: 1px solid #222226; background: #0a0a0b; position: relative; }
+		.corner-box { position: absolute; width: 20px; height: 20px; border: 1px solid #222226; background: #000; }
+	</style>
+</head>
+<body class="bg-black text-[#fafafa]">
+	<main class="mx-auto w-full max-w-6xl px-5 py-8 md:px-10 md:py-12">
+		<header class="report-section mb-8 p-6 md:p-8">
+			<div class="corner-box left-0 top-0 -translate-x-1/2 -translate-y-1/2"></div>
+			<div class="corner-box right-0 top-0 translate-x-1/2 -translate-y-1/2"></div>
+			<div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+				<div>
+					<div class="mono mb-2 text-xs tracking-widest text-[#666]">// CHECKUP</div>
+					<h1 class="text-4xl font-bold tracking-tight md:text-6xl">web-porto-v2</h1>
+				</div>
+				<div class="mono text-left text-xs text-[#666] md:text-right">
+					<div>COMMANDCODE REPORT</div>
+					<div class="text-[#444]">2026-11-07</div>
+				</div>
+			</div>
+		</header>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="corner-box left-0 top-0 -translate-x-1/2 -translate-y-1/2"></div>
+			<div class="corner-box right-0 top-0 translate-x-1/2 -translate-y-1/2"></div>
+			<div class="grid gap-8 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+				<div>
+					<div class="mono mb-2 text-xs tracking-widest text-[#666]">// OVERALL</div>
+					<div class="text-6xl font-bold tracking-tight md:text-7xl">45</div>
+					<div class="mt-1 text-lg text-[#666]">/ 60</div>
+					<div class="mt-4 inline-flex border border-[#fbbf24]/30 bg-[#fbbf24]/10 px-3 py-1 text-sm text-[#fbbf24]">NEEDS CHANGES</div>
+				</div>
+				<div>
+					<div class="mono mb-3 text-xs tracking-widest text-[#666]">// TL;DR</div>
+					<p class="text-sm leading-6 text-[#a0a0a0]">Readable, functional, and responsive enough, but assembled from defaults: glass card, centered stack, and a font that ignores the site's own type system. No critical blocker.</p>
+					<p class="mt-4 text-sm leading-6 text-[#fbbf24]">Recompose without the glass panel, restore Instrument Serif, raise the CTA hit area.</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="mono mb-6 text-xs tracking-widest text-[#666]">// VITALS</div>
+			<div class="overflow-x-auto">
+				<table class="w-full min-w-[720px] border-collapse text-sm">
+					<thead>
+						<tr class="border-b border-[#222226] text-left mono text-xs text-[#666]">
+							<th class="py-3 pr-4 font-normal">#</th>
+							<th class="py-3 pr-4 font-normal">VITAL</th>
+							<th class="py-3 pr-4 font-normal">STATUS</th>
+							<th class="py-3 pr-4 font-normal">SCORE</th>
+							<th class="py-3 font-normal">EVIDENCE</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#555]">1</td><td class="py-3 pr-4">Intentionality</td><td class="py-3 pr-4 text-[#fbbf24]">WATCH</td><td class="py-3 pr-4">5/10</td><td class="py-3 text-[#a0a0a0]">Glass card + centered stack + Helvetica read as assembled</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#555]">2</td><td class="py-3 pr-4">Readability</td><td class="py-3 pr-4 text-[#34d399]">HEALTHY</td><td class="py-3 pr-4">10/10</td><td class="py-3 text-[#a0a0a0]">Light and dark text contrast hold over the shader</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#555]">3</td><td class="py-3 pr-4">Usability</td><td class="py-3 pr-4 text-[#34d399]">HEALTHY</td><td class="py-3 pr-4">10/10</td><td class="py-3 text-[#a0a0a0]">Both CTAs are real links</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#555]">4</td><td class="py-3 pr-4">Responsiveness</td><td class="py-3 pr-4 text-[#fbbf24]">WATCH</td><td class="py-3 pr-4">5/10</td><td class="py-3 text-[#a0a0a0]">3rem card padding at 320px; CTA height ≈ 40px</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#555]">5</td><td class="py-3 pr-4">Speed</td><td class="py-3 pr-4 text-[#34d399]">HEALTHY</td><td class="py-3 pr-4">10/10</td><td class="py-3 text-[#a0a0a0]">No hero media; shader capped near 2MP</td></tr>
+						<tr><td class="py-3 pr-4 text-[#555]">6</td><td class="py-3 pr-4">Accessibility</td><td class="py-3 pr-4 text-[#fbbf24]">WATCH</td><td class="py-3 pr-4">5/10</td><td class="py-3 text-[#a0a0a0]">Copy opacity:0 until JS; no reduced-motion path; small targets</td></tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="mono mb-6 text-xs tracking-widest text-[#666]">// PRESCRIPTIONS</div>
+			<div class="overflow-x-auto">
+				<table class="w-full min-w-[720px] border-collapse text-sm">
+					<thead>
+						<tr class="border-b border-[#222226] text-left mono text-xs text-[#666]">
+							<th class="py-3 pr-4 font-normal">SEVERITY</th>
+							<th class="py-3 pr-4 font-normal">ISSUE</th>
+							<th class="py-3 pr-4 font-normal">LOCATION</th>
+							<th class="py-3 font-normal">FIX</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#fbbf24]">MEDIUM</td><td class="py-3 pr-4">Copy hidden without JS</td><td class="py-3 pr-4 mono text-[#a0a0a0]">Hero.svelte:106-204</td><td class="py-3 text-[#a0a0a0]">CSS keyframes with fill-mode both</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#fbbf24]">MEDIUM</td><td class="py-3 pr-4">Motion ignores reduced motion</td><td class="py-3 pr-4 mono text-[#a0a0a0]">Hero.svelte:106-204</td><td class="py-3 text-[#a0a0a0]">Gate under prefers-reduced-motion</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-3 pr-4 text-[#fbbf24]">MEDIUM</td><td class="py-3 pr-4">Small touch targets</td><td class="py-3 pr-4 mono text-[#a0a0a0]">Hero.svelte:209,228</td><td class="py-3 text-[#a0a0a0]">48px primary, 44px link</td></tr>
+						<tr><td class="py-3 pr-4 text-[#fbbf24]">MEDIUM</td><td class="py-3 pr-4">Panel padding at 320px</td><td class="py-3 pr-4 mono text-[#a0a0a0]">Hero.svelte:61</td><td class="py-3 text-[#a0a0a0]">Remove panel, 1.25rem page padding</td></tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<footer class="mono py-8 text-center text-xs tracking-widest text-[#444]">Generated with CommandCode - 2026-11-07</footer>
+	</main>
+</body>
+</html>

@@ -238,7 +238,7 @@ export const journey: JourneyItem[] = [
 		kind: 'education',
 		title: 'Bachelor of Informatics',
 		org: 'Universitas Amikom Yogyakarta',
-		date: '2022 — Present · GPA 3.75/4.00',
+		date: '2022 — 2026 · GPA 3.60',
 		desc: 'Where it started. Focus on software engineering, cloud computing, and web technologies.'
 	},
 	{
@@ -318,7 +318,7 @@ export const education: Edu[] = [
 	{
 		title: 'Bachelor of Informatics',
 		school: 'Universitas Amikom Yogyakarta',
-		year: '2022 — Present · GPA 3.75/4.00',
+		year: '2022 — 2026 · GPA 3.60',
 		desc: 'Focus on software engineering, cloud computing, and web technologies.'
 	},
 	{

@@ -34,7 +34,7 @@
 
 | Role | Font | Ukuran | Berat |
 |---|---|---|---|
-| Judul hero | `Instrument Serif` (italic) + `Helvetica Neue/Arial` | `clamp(2.5rem, 6vw, 4.3rem)` | 400/800 |
+| Judul hero | `Instrument Serif` — baris 1 regular, baris 2 italic | `clamp(3.5rem, 9.5vw, 7.5rem)` | 400 |
 | Section heading | `Instrument Serif` | `2.75rem` | 400 |
 | Body | `Segoe UI, system-ui` | `0.88–1.1rem` | 400/500 |
 | Label/eyebrow | system | `0.75rem`, uppercase, `letter-spacing: 3px` | 600 |
@@ -84,6 +84,33 @@
 |---|---|
 | `.btn-primary` | bg `--blue-700`, teks putih, pill. Hover: translateY(-2px), shadow lebih dalam. |
 | `.btn-secondary` | bg `--btn-secondary-bg`, teks `--blue-700`, border tipis. Hover: translateY(-2px). |
+
+### Hero (Homepage)
+
+- **Komposisi**: grid dua kolom. Kiri = pitch (nama serif 2 baris, lede, satu CTA utama + satu
+  text link). Kanan = ledger fakta (`Latest project`, `Education`) dengan hairline di atas, rata
+  bawah bersama CTA. Hero full-bleed; konten dibatasi `.hero-inner` (max 1120px).
+- **Tanpa glass card.** Latar memakai scrim radial *edge-less* `position: fixed; inset: 0`:
+  `color-mix` `--bg` 82–88% di inti, memudar ke transparan. Fixed supaya tidak ada garis potong
+  saat scroll; shader tetap terlihat, kontras teks tetap ≥ 7:1.
+- **Bukan center stack.** Rata kiri; satu aksi dominan (`View selected work`), satu aksi tenang
+  (`My journey`).
+- **Motion**: CSS `@keyframes rise` (opacity + translateY 16px), stagger 0.06–0.3s, hanya aktif
+  di `prefers-reduced-motion: no-preference`. Tidak bergantung JS saat mount.
+- **Target sentuh**: CTA utama 48px, text link 44px. Focus ring `2px solid var(--blue-500)`.
+
+### Footer (Homepage)
+
+- Hanya ikon sosial (Instagram, LinkedIn, GitHub), tanpa teks, rata tengah.
+- Target 44×44px, hover lift 2px, focus ring `2px solid var(--blue-500)`.
+- Gradient `--bg` ke transparan di belakangnya agar tetap terbaca di atas shader.
+
+### Scroll Indicator (Next page)
+
+- Pill lebih kecil: `padding: 0.9rem 0.9rem 0.9rem 1.6rem`, gap `1.5rem`, ring 46px, label
+  `clamp(1.35rem, 2.6vw, 1.65rem)`.
+- Section `min-height: 46vh` (mobile 42vh) — tidak mendominasi layar.
+- Hover lift 2px; panah nudge 2s; `prefers-reduced-motion` mematikan animasi.
 
 ### Kartu Project
 - Media area 180px tinggi, cover object-fit
