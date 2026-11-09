@@ -148,8 +148,8 @@
 	.back-panel {
 		display: flex;
 		align-items: center;
-		gap: 2rem;
-		padding: 1.25rem 2.25rem 1.25rem 1.25rem;
+		gap: 1.5rem;
+		padding: 0.9rem 1.6rem 0.9rem 0.9rem;
 		border-radius: 999px;
 		background: var(--bg-card);
 		border: 1px solid var(--border-light);
@@ -173,16 +173,16 @@
 	}
 
 	.kicker {
-		font-size: 0.7rem;
+		font-size: 0.64rem;
 		font-weight: 600;
 		text-transform: uppercase;
-		letter-spacing: 0.15em;
+		letter-spacing: 0.14em;
 		color: var(--text-muted);
 	}
 
 	.label {
 		font-family: 'Instrument Serif', Georgia, serif;
-		font-size: clamp(1.75rem, 4vw, 2.25rem);
+		font-size: clamp(1.35rem, 2.6vw, 1.65rem);
 		font-style: italic;
 		line-height: 1.05;
 		color: var(--text);
@@ -192,8 +192,8 @@
 	.ring {
 		position: relative;
 		flex-shrink: 0;
-		width: 60px;
-		height: 60px;
+		width: 46px;
+		height: 46px;
 		display: grid;
 		place-items: center;
 		color: var(--bg-card);
@@ -223,8 +223,8 @@
 
 	.arrow {
 		position: absolute;
-		width: 22px;
-		height: 22px;
+		width: 18px;
+		height: 18px;
 		color: var(--blue-700);
 		animation: nudge 2s ease-in-out infinite;
 	}
@@ -257,12 +257,12 @@
 			padding-top: 1rem;
 		}
 		.back-panel {
-			gap: 1.25rem;
-			padding: 1rem 1.5rem 1rem 1rem;
+			gap: 1.1rem;
+			padding: 0.8rem 1.35rem 0.8rem 0.8rem;
 		}
 		.ring {
-			width: 48px;
-			height: 48px;
+			width: 40px;
+			height: 40px;
 		}
 	}
 </style>
